@@ -9,7 +9,6 @@ namespace HackerUp.Server.Services.Auth
 {
     public class UserManagerService
     {
-
         public IHUServerContext ServerContext { get; }
         public LiteCollection<RegisteredUser> UserStore { get; }
 

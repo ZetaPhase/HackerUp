@@ -7,6 +7,7 @@ using Nancy;
 using Nancy.ModelBinding;
 using Nancy.Responses;
 using Octokit;
+using OsmiumSubstrate.Utilities;
 
 namespace HackerUp.Server.Modules
 {
@@ -54,7 +55,7 @@ namespace HackerUp.Server.Modules
                 var registeredUser = await um.RegisterUserAsync(registration);
                 if (registeredUser != null)
                 {
-                    return HttpStatusCode.OK;
+                    return Response.AsJsonNet(registeredUser);
                 }
 
                 return HttpStatusCode.Unauthorized;

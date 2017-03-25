@@ -5,6 +5,14 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{13B669BE-BB05-4DDF-9536-439F39A36129}") = "HackerUp.Server", "HackerUp.Server\HackerUp.Server.csproj", "{81385648-8FFC-46EE-BB12-9866021E37DE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{196BAADD-5664-44B9-8ED2-764BB2776CC4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OsmiumSubstrate", "OsmiumSubstrate", "{CF1B3F35-539F-412F-8C16-9C9A4D76A20B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{396E511A-3111-45F6-8753-F1DBE3A3B4E7}"
+EndProject
+Project("{13B669BE-BB05-4DDF-9536-439F39A36129}") = "OsmiumSubstrate", "lib\OsmiumSubstrate\src\OsmiumSubstrate\OsmiumSubstrate.csproj", "{8F26A49C-7AA2-4CD1-A3AE-4C1EF42A6897}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +38,22 @@ Global
 		{81385648-8FFC-46EE-BB12-9866021E37DE}.Release|x64.Build.0 = Release|x64
 		{81385648-8FFC-46EE-BB12-9866021E37DE}.Release|x86.ActiveCfg = Release|x86
 		{81385648-8FFC-46EE-BB12-9866021E37DE}.Release|x86.Build.0 = Release|x86
+		{8F26A49C-7AA2-4CD1-A3AE-4C1EF42A6897}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F26A49C-7AA2-4CD1-A3AE-4C1EF42A6897}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F26A49C-7AA2-4CD1-A3AE-4C1EF42A6897}.Debug|x64.ActiveCfg = Debug|x64
+		{8F26A49C-7AA2-4CD1-A3AE-4C1EF42A6897}.Debug|x64.Build.0 = Debug|x64
+		{8F26A49C-7AA2-4CD1-A3AE-4C1EF42A6897}.Debug|x86.ActiveCfg = Debug|x86
+		{8F26A49C-7AA2-4CD1-A3AE-4C1EF42A6897}.Debug|x86.Build.0 = Debug|x86
+		{8F26A49C-7AA2-4CD1-A3AE-4C1EF42A6897}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F26A49C-7AA2-4CD1-A3AE-4C1EF42A6897}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F26A49C-7AA2-4CD1-A3AE-4C1EF42A6897}.Release|x64.ActiveCfg = Release|x64
+		{8F26A49C-7AA2-4CD1-A3AE-4C1EF42A6897}.Release|x64.Build.0 = Release|x64
+		{8F26A49C-7AA2-4CD1-A3AE-4C1EF42A6897}.Release|x86.ActiveCfg = Release|x86
+		{8F26A49C-7AA2-4CD1-A3AE-4C1EF42A6897}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CF1B3F35-539F-412F-8C16-9C9A4D76A20B} = {196BAADD-5664-44B9-8ED2-764BB2776CC4}
+		{396E511A-3111-45F6-8753-F1DBE3A3B4E7} = {CF1B3F35-539F-412F-8C16-9C9A4D76A20B}
+		{8F26A49C-7AA2-4CD1-A3AE-4C1EF42A6897} = {396E511A-3111-45F6-8753-F1DBE3A3B4E7}
 	EndGlobalSection
 EndGlobal

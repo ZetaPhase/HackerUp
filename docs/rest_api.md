@@ -40,7 +40,7 @@ json containing the user data
 All konnect routes start with `/k`.
 All of them also REQUIRE the `apikey` query string parameter
 
-`/ping`
+POST `/ping` - tell the server you're alive
 
 Request format:
 
@@ -57,3 +57,20 @@ code:
 
 `bad request` - invalid parameters
 `ok` - ok.
+
+``
+
+GET `/nearby` - get a json array of nearby people
+
+response format:
+
+code:
+
+`bad request` - you haven't pinged and aren't marked as alive
+`ok` - good job.
+
+data:
+
+```json
+
+```

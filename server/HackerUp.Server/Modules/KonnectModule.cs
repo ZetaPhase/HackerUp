@@ -42,14 +42,16 @@ namespace HackerUp.Server.Modules
                 {
                     var pingReq = this.Bind<PingRequest>();
                     var connUser = ServerContext.ConnectedUsers.Find(x => x.DbUser.ApiKey == apiKey);
+                    var loc = new GeoCoordinate(pingReq.Latitude, pingReq.Longitude);
                     if (connUser == null)
                     {
                         connUser = new ConnectedUser(user);
+                        connUser.Ping(loc);
                         ServerContext.ConnectedUsers.Add(connUser);
                     }
                     else
                     {
-                        connUser.Ping(new GeoCoordinate(pingReq.Latitude, pingReq.Longitude));
+                        connUser.Ping(loc);
                     }
                     return HttpStatusCode.OK;
                 }
@@ -59,18 +61,19 @@ namespace HackerUp.Server.Modules
                 }
             });
 
-            Post("/nearby", args => 
+            Get("/nearby", args => 
             {
                 // get current user
                 var connUser = ServerContext.ConnectedUsers.Find(x => x.DbUser.ApiKey == apiKey);
                 if (connUser == null) return HttpStatusCode.BadRequest;
-                var nearbyUsers = ServerContext.ConnectedUsers.FindAll(x => connUser.LastLocation.GetDistanceTo(x.LastLocation) < 1500);
+                var nearbyUsers = ServerContext.ConnectedUsers.FindAll(x => x != connUser && x.LastLocation != null && connUser.LastLocation.GetDistanceTo(x.LastLocation) < 1500);
                 return Response.AsJsonNet(nearbyUsers.Select(x => new NearbyUser
                 {
                     Distance = connUser.LastLocation.GetDistanceTo(x.LastLocation),
                     UserId = x.DbUser.PublicUserId
                 }));
             });
+            
         }
     }
 }

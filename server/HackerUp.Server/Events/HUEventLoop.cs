@@ -31,7 +31,7 @@ namespace HackerUp.Server.Events
         private async Task RunInstance()
         {
             // remove inactive users
-            ServerContext.ConnectedUsers.RemoveAll(x => DateTime.Now.Subtract(x.LastPingTime) < TimeSpan.FromSeconds(30));
+            ServerContext.ConnectedUsers.RemoveAll(x => DateTime.Now.Subtract(x.LastPingTime) > TimeSpan.FromSeconds(30));
         }
     }
 }

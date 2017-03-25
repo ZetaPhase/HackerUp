@@ -55,7 +55,7 @@ public class LoginActivity extends Activity {
 
         SharedPreferences sharedpreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
         String apikey = sharedpreferences.getString("ApiKey", "null");
-        if(! apikey.equals("null")){
+        if(! apikey.equals("null")){ //TODO: make sure you still do the register request
             onLoginSuccess();
         }
 

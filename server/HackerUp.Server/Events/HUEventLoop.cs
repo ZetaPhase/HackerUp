@@ -8,6 +8,7 @@ namespace HackerUp.Server.Events
     public class HUEventLoop
     {
         public IHUServerContext ServerContext { get; }
+        public int RunCount { get; set; } = 0;
 
         public HUEventLoop(IHUServerContext serverContext)
         {
@@ -19,6 +20,7 @@ namespace HackerUp.Server.Events
         {
             while (true)
             {
+                ++RunCount;
                 await Task.Delay(1000);
                 
                 // Run instance
@@ -28,7 +30,8 @@ namespace HackerUp.Server.Events
 
         private async Task RunInstance()
         {
-            
+            // remove inactive users
+            ServerContext.ConnectedUsers.RemoveAll(x => DateTime.Now.Subtract(x.LastPingTime) < TimeSpan.FromSeconds(30));
         }
     }
 }

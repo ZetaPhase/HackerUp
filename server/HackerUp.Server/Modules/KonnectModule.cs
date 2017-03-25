@@ -20,10 +20,11 @@ namespace HackerUp.Server.Modules
             
             this.RequiresClaims(x => x.Value == UserApiLoginValidator.StatelessAuthClaim.Value);
             RegisteredUser user = null;
+            string apiKey = null;
 
             Before += (ctx) =>
             {
-                var apiKey = (string)Context?.Request.Query.apikey;
+                apiKey = (string)Context?.Request.Query.apikey;
                 if (apiKey != null)
                 {
                     UserManager = new UserManagerService(ServerContext);

@@ -1,6 +1,11 @@
 
+using System.Text.RegularExpressions;
 using HackerUp.Server.Configuration;
+using HackerUp.Server.DataModels;
+using HackerUp.Server.Services.Auth;
 using Nancy;
+using Nancy.ModelBinding;
+using Nancy.Responses;
 
 namespace HackerUp.Server.Modules
 {
@@ -12,9 +17,31 @@ namespace HackerUp.Server.Modules
         {
             ServerContext = serverContext;
 
-            Post("/register", args => 
+            Post("/register", async args => 
             {
-                
+                var registration = this.Bind<RegistrationRequest>();
+
+                // Validate registration
+                if (registration.FullName == null)
+                {
+                    return new TextResponse("Invalid name")
+                        .WithStatusCode(HttpStatusCode.BadRequest);
+                }
+                if (registration.GHAuthToken == null)
+                {
+                    return new TextResponse("Invalid auth token")
+                        .WithStatusCode(HttpStatusCode.BadRequest);
+                }
+                // email: 
+                if (!Regex.IsMatch(registration.HangoutsEmail, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase))
+                {
+                    return new TextResponse("Invalid email")
+                        .WithStatusCode(HttpStatusCode.BadRequest);
+                }
+                // test the auth token to make sure it works
+
+                var um = new UserManagerService(ServerContext);
+                await um.RegisterUserAsync(registration);
 
                 return HttpStatusCode.Unauthorized;
             });

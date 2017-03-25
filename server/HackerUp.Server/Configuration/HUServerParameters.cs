@@ -1,12 +1,13 @@
 
 using Newtonsoft.Json;
+using HackerUp.Server.Configuration.Access;
 
 namespace HackerUp.Server.Configuration
 {
     public class HUServerParameters
     {
         [JsonProperty("databaseConfiguration")]
-        public NADatabaseConfiguration DatabaseConfiguration { get; set; }
+        public HUDatabaseConfiguration DatabaseConfiguration { get; set; }
 
         /// <summary>
         /// Master API keys. These will also be stored in the state but will not be duplicated.

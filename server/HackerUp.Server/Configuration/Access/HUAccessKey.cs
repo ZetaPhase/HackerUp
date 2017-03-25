@@ -15,8 +15,8 @@ namespace HackerUp.Server.Configuration.Access
         Admin = 1 << 31,
     }
 
-    public class NAAccessKey : AccessKey<HUApiAccessScope>
+    public class HUAccessKey : AccessKey<HUApiAccessScope>
     {
-        public override HUApiAccessScope[] AccessScopes { get; set; } = new[] { HUApiAccessScope.Query };
+        public override HUApiAccessScope[] AccessScopes { get; set; } = new[] { HUApiAccessScope.Default };
     }
 }

@@ -10,3 +10,9 @@ Request format:
     "ghAuthToken": "1234"
 }
 ```
+
+Responses:
+
+`bad request` - invalid stuff
+`unauthorized` - failed
+`ok` - ok

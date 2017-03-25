@@ -51,12 +51,14 @@ namespace HackerUp.Server.Modules
                 }
                 
                 var um = new UserManagerService(ServerContext);
-                await um.RegisterUserAsync(registration);
+                var registeredUser = await um.RegisterUserAsync(registration);
+                if (registeredUser != null)
+                {
+                    return HttpStatusCode.OK;
+                }
 
                 return HttpStatusCode.Unauthorized;
             });
         }
-
-
     }
 }

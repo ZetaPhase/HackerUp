@@ -1,5 +1,7 @@
 # API Documentation
 
+## Auth routes
+
 POST `/register` - Register a user
 
 Request format:
@@ -33,4 +35,6 @@ json containing the user data
 }
 ```
 
+## Konnect routes
 
+All konnect routes start with `/k`

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <TextView
+        android:text="HACKERUP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:textSize="48sp"
+        android:fontFamily="sans-serif-smallcaps"
+        android:textColor="@android:color/white"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="51dp" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="56dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:layout_alignTop="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="30dp">
+
+        <!-- Name Label -->
+        <EditText android:id="@+id/loginName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="Full Name"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textColorHint="@android:color/white"/>
+
+        <!-- Email Label -->
+        <EditText android:id="@+id/loginHangoutsEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:hint="Hangouts Email"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textColorHint="@android:color/white"/>
+
+        <!-- Password Label -->
+        <EditText android:id="@+id/loginUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="GitHub username"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textColorHint="@android:color/white"/>
+
+        <!-- Password Label -->
+        <EditText android:id="@+id/loginPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="GitHub password"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textColorHint="@android:color/white"/>
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:padding="12dp"
+            android:text="Login"
+            android:textSize="22sp"
+            android:fontFamily="sans-serif-smallcaps" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

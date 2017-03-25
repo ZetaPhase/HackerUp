@@ -49,3 +49,10 @@ Request format:
     "longitude": 68.12
 }
 ```
+
+Response format:
+
+code:
+
+`bad request` - invalid parameters
+`ok` - ok.

@@ -13,6 +13,6 @@ namespace HackerUp.Server.DataModels
         public string HangoutsEmail { get; }
         public string GHAuthToken { get; }
 
-        public string ApiKey { get; }
+        public string ApiKey { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 
 using HackerUp.Server.Configuration;
 using HackerUp.Server.Configuration.Access;
+using HackerUp.Server.Services.Auth;
 using Nancy;
 using Nancy.Authentication.Stateless;
 using Nancy.Bootstrapper;
@@ -39,7 +40,14 @@ namespace HackerUp.Server
 
                 // get user identity
                 var authenticator = new StatelessAuthenticationService<HUAccessKey, HUApiAccessScope>(ServerContext);
-                return authenticator.ResolveClientIdentity(apiKey);
+                var identity = authenticator.ResolveClientIdentity(apiKey);
+                if (identity == null)
+                {
+                    // Use user identity
+                    var userAuthValidator = new UserApiLoginValidator(ServerContext);
+                    identity = userAuthValidator.ResolveClientIdentity(apiKey);
+                }
+                return identity;
             }));
 
             // Enable CORS

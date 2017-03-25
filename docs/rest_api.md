@@ -38,3 +38,14 @@ json containing the user data
 ## Konnect routes
 
 All konnect routes start with `/k`
+
+`/ping`
+
+Request format:
+
+```json
+{
+    "latitude": 45.15,
+    "longitude": 68.12
+}
+```

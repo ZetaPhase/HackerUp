@@ -24,7 +24,7 @@ namespace HackerUp.Server.Services.Auth
         public ClaimsPrincipal ResolveClientIdentity(string apiKey)
         {
             var u = UserManager.FindUserByApiKey(apiKey);
-            // TODO
+            if (u == null) return null;
             var id = new ClaimsPrincipal(new ClaimsIdentity(new GenericIdentity(u.FullName, "stateless"),
                 new[]
                 {

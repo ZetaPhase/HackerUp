@@ -1,1 +1,2 @@
-*.lidb # LiteDB Databases
+# LiteDB Databases
+*.lidb

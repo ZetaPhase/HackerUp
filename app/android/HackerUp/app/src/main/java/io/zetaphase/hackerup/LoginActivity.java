@@ -4,27 +4,41 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class LoginActivity extends Activity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
     EditText _fullName;
-    EditText _username;
     EditText _emailText;
-    EditText _passwordText;
+    EditText _token;
     Button _loginButton;
     String response;
+    TextView _getToken;
 
-    private String serverAddress = "192.168.1.65";
-    //private String serverAddress = "10.78.43.147";
+    private String serverAddress = "192.168.43.198:5000";
+    //private String serverAddress = "192.168.1.65";
+    //private String serverAddress = "10.10.179.241:8000";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,8 +46,10 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
 
         _emailText = (EditText) findViewById(R.id.loginHangoutsEmail);
-        _passwordText = (EditText) findViewById(R.id.loginPassword);
         _loginButton = (Button) findViewById(R.id.btn_login);
+        _getToken = (TextView) findViewById(R.id.link_token);
+        _token = (EditText) findViewById(R.id.loginToken);
+        _fullName = (EditText) findViewById(R.id.loginName);
 
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
@@ -44,6 +60,16 @@ public class LoginActivity extends Activity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+
+        _getToken.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Log.d("TOKEN", "trying to create new token");
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/settings/tokens/new"));
+                startActivity(browserIntent);
             }
         });
 
@@ -65,13 +91,33 @@ public class LoginActivity extends Activity {
         progressDialog.show();
 
         final String email = _emailText.getText().toString();
-        final String password = _passwordText.getText().toString();
         final String fullName = _fullName.getText().toString();
-        final String username = _username.getText().toString();
+        final String token = _token.getText().toString();
         String response = null;
 
         // TODO: Implement your own authentication logic here.
 
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                JSONObject login = new JSONObject();
+                try {
+                    login.put("FullName", fullName);
+                    login.put("hangoutsemail", email);
+                    login.put("ghauthtoken", token);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.d("OBJECT", login.toString());
+                StringBuffer a = request("http://"+serverAddress+"/register", login);
+
+                setResponse(a.toString());
+                Log.d("REPONSE", getResponse());
+            }
+        });
+
+        thread.start();
+        thread.join();
 
         // put away keyboard when login is pressed
         View view = this.getCurrentFocus();
@@ -99,6 +145,40 @@ public class LoginActivity extends Activity {
         return this.response;
     }
 
+    private StringBuffer request(String urlString, JSONObject jsonObj) {
+        // TODO Auto-generated method stub
+
+        StringBuffer chaine = new StringBuffer("");
+        try {
+            URL url = new URL(urlString);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("User-Agent", "");
+            connection.setRequestMethod("POST");
+            connection.setDoInput(true);
+            connection.connect();
+
+            Log.d("REQUESTOUTPUT", "requesting");
+            byte[] b = jsonObj.toString().getBytes();
+            OutputStream outputStream = connection.getOutputStream();
+            outputStream.write(b);
+
+
+            InputStream inputStream = connection.getInputStream();
+
+            BufferedReader rd = new BufferedReader(new InputStreamReader(inputStream));
+            String line = "";
+            while ((line = rd.readLine()) != null) {
+                chaine.append(line);
+            }
+
+        } catch (IOException e) {
+            // writing exception to log
+            e.printStackTrace();
+        }
+
+        return chaine;
+    }
 
     @Override
     public void onBackPressed() {
@@ -122,7 +202,7 @@ public class LoginActivity extends Activity {
         boolean valid = true;
 
         String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
+        //String password = _passwordText.getText().toString();
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             _emailText.setError("enter a valid email address");
@@ -130,14 +210,14 @@ public class LoginActivity extends Activity {
         } else {
             _emailText.setError(null);
         }
-
+        /*
         if (password.isEmpty() || password.length() < 4 || password.length() > 15) {
             _passwordText.setError("between 4 and 10 alphanumeric characters");
             valid = false;
         } else {
             _passwordText.setError(null);
         }
-
+        */
         return valid;
     }
 }

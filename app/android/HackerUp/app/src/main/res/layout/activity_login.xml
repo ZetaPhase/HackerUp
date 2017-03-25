@@ -23,10 +23,9 @@
         android:paddingTop="56dp"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
-        android:layout_alignTop="@+id/textView2"
+        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="30dp">
+        android:layout_alignParentStart="true">
 
         <!-- Name Label -->
         <EditText android:id="@+id/loginName"
@@ -49,21 +48,15 @@
             android:textColorHint="@android:color/white"/>
 
         <!-- Password Label -->
-        <EditText android:id="@+id/loginUsername"
+
+        <!-- Password Label -->
+
+        <!-- Password Label -->
+        <EditText android:id="@+id/loginToken"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
-            android:hint="GitHub username"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
-            android:textColorHint="@android:color/white"/>
-
-        <!-- Password Label -->
-        <EditText android:id="@+id/loginPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:hint="GitHub password"
+            android:hint="Authorization Token"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textColorHint="@android:color/white"/>
@@ -76,9 +69,18 @@
             android:layout_marginBottom="24dp"
             android:padding="12dp"
             android:text="Login"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:fontFamily="sans-serif-smallcaps" />
 
+        <TextView android:id="@+id/link_token"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="No token yet? Create one"
+            android:gravity="center"
+            android:fontFamily="sans-serif-smallcaps"
+            android:textSize="15sp"
+            android:textColor="@android:color/white"/>
 
     </LinearLayout>
 

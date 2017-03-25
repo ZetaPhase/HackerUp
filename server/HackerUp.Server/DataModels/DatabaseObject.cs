@@ -8,6 +8,6 @@ namespace HackerUp.Server.DataModels
     {
         [JsonIgnore]
         [BsonId]
-        public ObjectId DatabaseId { get; }
+        public int DatabaseId { get; set; }
     }
 }

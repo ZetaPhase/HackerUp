@@ -1,3 +1,4 @@
+# API Documentation
 
 POST `/register` - Register a user
 
@@ -13,6 +14,8 @@ Request format:
 
 Responses:
 
-`bad request` - invalid stuff
-`unauthorized` - failed
-`ok` - ok
+`bad request` - invalid/null username, email
+`unauthorized` - failed to verify github access token
+`ok` - ok.
+
+

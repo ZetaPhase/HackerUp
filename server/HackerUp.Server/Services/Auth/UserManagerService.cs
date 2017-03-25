@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using HackerUp.Server.Configuration;
 using HackerUp.Server.DataModels;
+using HackerUp.Server.Utilities;
 using LiteDB;
 
 namespace HackerUp.Server.Services.Auth
@@ -30,10 +31,18 @@ namespace HackerUp.Server.Services.Auth
                 return Task.FromResult<RegisteredUser>(null);
             }
             // no conflicting users
-            var newUser = new RegisteredUser(request.FullName, request.HangoutsEmail, request.GHAuthToken);
+            var newUser = new RegisteredUser(request.FullName, request.HangoutsEmail, request.GHAuthToken)
+            {
+                ApiKey = StringUtils.SecureRandomString(34)
+            };
             // upsert
             UserStore.Upsert(newUser);
+            UserStore.EnsureIndex(u => u.ApiKey);
             return Task.FromResult(newUser);
+        }
+        public RegisteredUser FindUserByApiKey(string apikey)
+        {
+            return UserStore.FindOne(x => x.ApiKey == apikey);
         }
     }
 }

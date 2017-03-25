@@ -27,13 +27,13 @@ import java.net.URL;
 
 public class LoginActivity extends Activity {
     private static final String TAG = "LoginActivity";
-    private static final int REQUEST_SIGNUP = 0;
 
     EditText _fullName;
     EditText _emailText;
     EditText _token;
     Button _loginButton;
     String response;
+    int statusCode;
     TextView _getToken;
 
     private String serverAddress = "192.168.43.198:5000";
@@ -109,9 +109,10 @@ public class LoginActivity extends Activity {
                     e.printStackTrace();
                 }
                 Log.d("OBJECT", login.toString());
-                StringBuffer a = request("http://"+serverAddress+"/register", login);
+                String[] a = request("http://"+serverAddress+"/register", login);
 
-                setResponse(a.toString());
+                setStatusCode(Integer.valueOf(a[0]));
+                setResponse(a[1].toString());
                 Log.d("REPONSE", getResponse());
             }
         });
@@ -130,6 +131,16 @@ public class LoginActivity extends Activity {
                 new Runnable() {
                     public void run() {
                         // TODO: Put your logic here
+                        String r = getResponse();
+                        int status = getStatusCode();
+                        Log.d("RESPONSE", r);
+                        if(status==200){
+                            onLoginSuccess();
+                        }else if(status==401){
+                            onLoginFailed("Invalid Auth Token.");
+                        }else if(status==400){
+                            onLoginFailed("Invalid Fields.");
+                        }
                         onLoginSuccess();
                         //onLoginFailed();
                         progressDialog.dismiss();
@@ -140,15 +151,18 @@ public class LoginActivity extends Activity {
     private void setResponse(String response){
         this.response = response;
     }
-
     private String getResponse(){
         return this.response;
     }
 
-    private StringBuffer request(String urlString, JSONObject jsonObj) {
+    private void setStatusCode(int statusCode){ this.statusCode = statusCode; }
+    private int getStatusCode() { return this.statusCode; }
+
+    private String[] request(String urlString, JSONObject jsonObj) {
         // TODO Auto-generated method stub
 
         StringBuffer chaine = new StringBuffer("");
+        int code = -1;
         try {
             URL url = new URL(urlString);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -157,6 +171,8 @@ public class LoginActivity extends Activity {
             connection.setRequestMethod("POST");
             connection.setDoInput(true);
             connection.connect();
+
+            code = connection.getResponseCode();
 
             Log.d("REQUESTOUTPUT", "requesting");
             byte[] b = jsonObj.toString().getBytes();
@@ -177,7 +193,13 @@ public class LoginActivity extends Activity {
             e.printStackTrace();
         }
 
-        return chaine;
+        Log.d("STATUSCODE", ""+code);
+
+        String result[] = new String[2];
+        result[0] = ""+code;
+        result[1] = chaine.toString();
+
+        return result;
     }
 
     @Override

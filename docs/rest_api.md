@@ -37,7 +37,8 @@ json containing the user data
 
 ## Konnect routes
 
-All konnect routes start with `/k`
+All konnect routes start with `/k`.
+All of them also REQUIRE the `apikey` query string parameter
 
 `/ping`
 

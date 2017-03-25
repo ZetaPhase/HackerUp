@@ -9,9 +9,14 @@ namespace HackerUp.Server.DataModels
             HangoutsEmail = hangoutsEmail;
             GHAuthToken = ghToken;
         }
-        public string FullName { get; }
-        public string HangoutsEmail { get; }
-        public string GHAuthToken { get; }
+
+        public RegisteredUser()
+        {
+            
+        }
+        public string FullName { get; set; }
+        public string HangoutsEmail { get; set; }
+        public string GHAuthToken { get; set; }
 
         public string ApiKey { get; set; }
     }

@@ -19,9 +19,18 @@ namespace HackerUp.Server.Modules
             ServerContext = serverContext;
             
             this.RequiresClaims(x => x.Value == UserApiLoginValidator.StatelessAuthClaim.Value);
-            var apiKey = (string)Context.Request.Query.apikey.Value;
-            UserManager = new UserManagerService(ServerContext);
-            var user = UserManager.FindUserByApiKey(apiKey);
+            RegisteredUser user = null;
+
+            Before += (ctx) =>
+            {
+                var apiKey = (string)Context?.Request.Query.apikey;
+                if (apiKey != null)
+                {
+                    UserManager = new UserManagerService(ServerContext);
+                    user = UserManager.FindUserByApiKey(apiKey);
+                }
+                return null;
+            };
 
             Post("/ping", args =>
             {

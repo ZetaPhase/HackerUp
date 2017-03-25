@@ -18,7 +18,7 @@ namespace HackerUp.Server.Configuration
         /// <summary>
         /// If set to true, the keys will be reset upon a server start.
         /// </summary>
-        public bool KeyReset { get; set; } = false;
+        public bool KeyReset { get; set; } = false; 
 
         [JsonProperty("corsOrigins")]
         public string[] CorsOrigins { get; set; } = new string[0];

@@ -1,5 +1,6 @@
 
 using System;
+using GeoCoordinatePortable;
 using HackerUp.Server.DataModels;
 
 namespace HackerUp.Server.Events
@@ -15,9 +16,9 @@ namespace HackerUp.Server.Events
 
         public DateTime LastPingTime { get; private set; }
 
-        public void Ping(DateTime time)
+        public void Ping(GeoCoordinate coord)
         {
-            LastPingTime = time;
+            LastPingTime = DateTime.Now;
         }
     }
 }

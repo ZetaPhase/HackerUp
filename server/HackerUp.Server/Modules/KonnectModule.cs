@@ -1,5 +1,6 @@
 
 using System;
+using GeoCoordinatePortable;
 using HackerUp.Server.Configuration;
 using HackerUp.Server.DataModels;
 using HackerUp.Server.Events;
@@ -47,7 +48,7 @@ namespace HackerUp.Server.Modules
                     }
                     else
                     {
-                        connUser.Ping(DateTime.Now);
+                        connUser.Ping(new GeoCoordinate(pingReq.Latitude, pingReq.Longitude));
                     }
                     return HttpStatusCode.OK;
                 }
@@ -55,6 +56,11 @@ namespace HackerUp.Server.Modules
                 {
                     return HttpStatusCode.BadRequest;
                 }
+            });
+
+            Post("/nearby", args => 
+            {
+                return HttpStatusCode.NotImplemented;
             });
         }
     }

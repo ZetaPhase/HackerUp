@@ -1,6 +1,8 @@
 
+using HackerUp.Server.DataModels;
 using HackerUp.Server.Services.Auth;
 using Nancy;
+using Nancy.ModelBinding;
 using Nancy.Security;
 
 namespace HackerUp.Server.Modules
@@ -11,7 +13,19 @@ namespace HackerUp.Server.Modules
         {
             this.RequiresClaims(x => x.Value == UserApiLoginValidator.StatelessAuthClaim.Value);
 
-            
+            Post("/ping", args =>
+            {
+                try
+                {
+                    var pingReq = this.Bind<PingRequest>();
+                    // TODO: store ping
+                    return HttpStatusCode.OK;
+                }
+                catch
+                {
+                    return HttpStatusCode.BadRequest;
+                }
+            });
         }
     }
 }

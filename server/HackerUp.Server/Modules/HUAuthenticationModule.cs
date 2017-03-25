@@ -6,12 +6,12 @@ using HackerUp.Server.Services.Auth;
 using Nancy;
 using Nancy.ModelBinding;
 using Nancy.Responses;
+using Octokit;
 
 namespace HackerUp.Server.Modules
 {
     public class HUAuthenticationModule : NancyModule
     {
-
         public IHUServerContext ServerContext { get; set; }
         public HUAuthenticationModule(IHUServerContext serverContext)
         {
@@ -39,7 +39,17 @@ namespace HackerUp.Server.Modules
                         .WithStatusCode(HttpStatusCode.BadRequest);
                 }
                 // test the auth token to make sure it works
-
+                try
+                {               
+                    var ghClient = new GitHubClient(new ProductHeaderValue(nameof(HUAuthenticationModule)));
+                    ghClient.Credentials = new Credentials(registration.GHAuthToken);
+                    var user = await ghClient.User.Current();
+                }
+                catch
+                {
+                    return HttpStatusCode.BadRequest;
+                }
+                
                 var um = new UserManagerService(ServerContext);
                 await um.RegisterUserAsync(registration);
 

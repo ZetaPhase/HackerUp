@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using HackerUp.Server.Configuration.Access;
 using HackerUp.Server.Events;
 using LiteDB;
@@ -18,6 +19,9 @@ namespace HackerUp.Server.Configuration
 
          // Persistent State
         public HUServerState ServerState { get; internal set; }
+
+        // Current info
+        public List<ConnectedUser> ConnectedUsers { get; } = new List<ConnectedUser>();
 
         public HUEventLoop EventLoop { get; set; }
 

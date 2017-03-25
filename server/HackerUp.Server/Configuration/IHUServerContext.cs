@@ -3,6 +3,7 @@ using OsmiumSubstrate.Configuration;
 using HackerUp.Server.Configuration.Access;
 using LiteDB;
 using HackerUp.Server.Events;
+using System.Collections.Generic;
 
 namespace HackerUp.Server.Configuration
 {
@@ -10,5 +11,7 @@ namespace HackerUp.Server.Configuration
     {
         LiteDatabase Database { get; }
         HUEventLoop EventLoop { get; }
+
+        List<ConnectedUser> ConnectedUsers { get; }
     }
 }

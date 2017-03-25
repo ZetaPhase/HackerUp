@@ -55,8 +55,18 @@ public class LoginActivity extends Activity {
 
         SharedPreferences sharedpreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
         String apikey = sharedpreferences.getString("ApiKey", "null");
-        if(! apikey.equals("null")){ //TODO: make sure you still do the register request
-            onLoginSuccess();
+        if(! apikey.equals("null")){
+            String name = sharedpreferences.getString("FullName", "null");
+            String email = sharedpreferences.getString("HangoutsEmail", "null");
+            String token = sharedpreferences.getString("GHAuthToken", "null");
+            _emailText.setText(email);
+            _fullName.setText(name);
+            _token.setText(token);
+            try {
+                login();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         _loginButton.setOnClickListener(new View.OnClickListener() {

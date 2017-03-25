@@ -16,9 +16,12 @@ namespace HackerUp.Server.Events
 
         public DateTime LastPingTime { get; private set; }
 
+        public GeoCoordinate LastLocation { get; private set; }
+
         public void Ping(GeoCoordinate coord)
         {
             LastPingTime = DateTime.Now;
+            LastLocation = coord;
         }
     }
 }

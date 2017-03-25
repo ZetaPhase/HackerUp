@@ -32,7 +32,8 @@ namespace HackerUp.Server.Services.Auth
             // no conflicting users
             var newUser = new RegisteredUser(request.FullName, request.HangoutsEmail, request.GHAuthToken)
             {
-                ApiKey = StringUtils.SecureRandomString(34)
+                ApiKey = StringUtils.SecureRandomString(34),
+                PublicUserId = StringUtils.SecureRandomString(14)
             };
             // upsert
             UserStore.Upsert(newUser);
@@ -42,6 +43,11 @@ namespace HackerUp.Server.Services.Auth
         public RegisteredUser FindUserByApiKey(string apikey)
         {
             return UserStore.FindOne(x => x.ApiKey == apikey);
+        }
+
+        public RegisteredUser FindUserByPublicId(string publicId)
+        {
+            return UserStore.FindOne(x => x.PublicUserId == publicId);
         }
     }
 }

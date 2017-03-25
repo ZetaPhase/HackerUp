@@ -19,5 +19,7 @@ namespace HackerUp.Server.DataModels
         public string GHAuthToken { get; set; }
 
         public string ApiKey { get; set; }
+
+        public string PublicUserId { get; set; }
     }
 }

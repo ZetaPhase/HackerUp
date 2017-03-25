@@ -1,5 +1,6 @@
 
 using System;
+using System.Linq;
 using GeoCoordinatePortable;
 using HackerUp.Server.Configuration;
 using HackerUp.Server.DataModels;
@@ -8,6 +9,7 @@ using HackerUp.Server.Services.Auth;
 using Nancy;
 using Nancy.ModelBinding;
 using Nancy.Security;
+using OsmiumSubstrate.Utilities;
 
 namespace HackerUp.Server.Modules
 {
@@ -39,7 +41,6 @@ namespace HackerUp.Server.Modules
                 try
                 {
                     var pingReq = this.Bind<PingRequest>();
-                    // TODO: store ping
                     var connUser = ServerContext.ConnectedUsers.Find(x => x.DbUser.ApiKey == apiKey);
                     if (connUser == null)
                     {
@@ -60,7 +61,15 @@ namespace HackerUp.Server.Modules
 
             Post("/nearby", args => 
             {
-                return HttpStatusCode.NotImplemented;
+                // get current user
+                var connUser = ServerContext.ConnectedUsers.Find(x => x.DbUser.ApiKey == apiKey);
+                if (connUser == null) return HttpStatusCode.BadRequest;
+                var nearbyUsers = ServerContext.ConnectedUsers.FindAll(x => connUser.LastLocation.GetDistanceTo(x.LastLocation) < 1500);
+                return Response.AsJsonNet(nearbyUsers.Select(x => new NearbyUser
+                {
+                    Distance = connUser.LastLocation.GetDistanceTo(x.LastLocation),
+                    UserId = x.DbUser.PublicUserId
+                }));
             });
         }
     }

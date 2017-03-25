@@ -53,6 +53,12 @@ public class LoginActivity extends Activity {
         _token = (EditText) findViewById(R.id.loginToken);
         _fullName = (EditText) findViewById(R.id.loginName);
 
+        SharedPreferences sharedpreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
+        String apikey = sharedpreferences.getString("ApiKey", "null");
+        if(! apikey.equals("null")){
+            onLoginSuccess();
+        }
+
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override

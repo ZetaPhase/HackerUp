@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,6 +36,7 @@ public class LoginActivity extends Activity {
     String response;
     int statusCode;
     TextView _getToken;
+    final String MYPREFERENCES = "HACKERUP";
 
     private String serverAddress = "192.168.43.198:5000";
     //private String serverAddress = "192.168.1.65";
@@ -79,7 +81,6 @@ public class LoginActivity extends Activity {
         Log.d(TAG, "Login");
 
         if (!validate()) {
-            onLoginFailed("");
             return;
         }
 
@@ -135,13 +136,29 @@ public class LoginActivity extends Activity {
                         int status = getStatusCode();
                         Log.d("RESPONSE", r);
                         if(status==200){
+                            try {
+                                JSONObject jsonObj = new JSONObject(r);
+                                String fullname = jsonObj.get("FullName").toString();
+                                String hangoutsemail = jsonObj.get("HangoutsEmail").toString();
+                                String token = jsonObj.get("GHAuthToken").toString();
+                                String apikey = jsonObj.get("ApiKey").toString();
+                                SharedPreferences sharedpreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedpreferences.edit();
+                                editor.putString("FullName", fullname);
+                                editor.putString("HangoutsEmail", hangoutsemail);
+                                editor.putString("GHAuthToken", token);
+                                editor.putString("ApiKey", apikey);
+                                editor.commit();
+                                Log.d("SHAREDPREFERENCES", sharedpreferences.getString("ApiKey", ""));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                             onLoginSuccess();
                         }else if(status==401){
                             onLoginFailed("Invalid Auth Token.");
                         }else if(status==400){
                             onLoginFailed("Invalid Fields.");
                         }
-                        onLoginSuccess();
                         //onLoginFailed();
                         progressDialog.dismiss();
                     }
@@ -166,19 +183,19 @@ public class LoginActivity extends Activity {
         try {
             URL url = new URL(urlString);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestProperty("User-Agent", "");
             connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-type", "application/json");
             connection.setDoInput(true);
             connection.connect();
 
-            code = connection.getResponseCode();
 
             Log.d("REQUESTOUTPUT", "requesting");
             byte[] b = jsonObj.toString().getBytes();
             OutputStream outputStream = connection.getOutputStream();
             outputStream.write(b);
 
+            code = connection.getResponseCode();
 
             InputStream inputStream = connection.getInputStream();
 

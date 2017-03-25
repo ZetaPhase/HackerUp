@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <TextView
+        android:text="Nihal Talur"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="34dp"
+        android:id="@+id/nihal_talur_label"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif-smallcaps"
+        android:textColor="@android:color/white"
+        android:layout_alignTop="@+id/dave_ho_label"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="Dave Ho"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="86dp"
+        android:id="@+id/dave_ho_label"
+        android:fontFamily="sans-serif-smallcaps"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="HACKERUP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="96dp"
+        android:id="@+id/splash_screen_label"
+        android:fontFamily="sans-serif-smallcaps"
+        android:textSize="48sp"
+        android:textColor="@android:color/white"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

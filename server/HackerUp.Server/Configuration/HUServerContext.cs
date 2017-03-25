@@ -1,4 +1,5 @@
 using HackerUp.Server.Configuration.Access;
+using HackerUp.Server.Events;
 using LiteDB;
 using OsmiumSubstrate.Configuration;
 
@@ -17,6 +18,8 @@ namespace HackerUp.Server.Configuration
 
          // Persistent State
         public HUServerState ServerState { get; internal set; }
+
+        public HUEventLoop EventLoop { get; set; }
 
         ISubstrateServerState<HUAccessKey, HUApiAccessScope> ISubstrateServerContext<HUAccessKey, HUApiAccessScope>.SubstrateServerState => ServerState;
 

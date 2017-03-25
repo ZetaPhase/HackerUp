@@ -1,6 +1,7 @@
 ﻿namespace HackerUp.Server
 {
     using HackerUp.Server.Configuration;
+    using HackerUp.Server.Events;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -57,6 +58,9 @@
 
             // Register shutdown
             applicationLifetime.ApplicationStopping.Register(OnShutdown);
+
+            // Start event loop
+            serverContext.EventLoop = new HUEventLoop(serverContext);
 
             // Load persistent state data
             HUServerConfigurator.LoadState(serverContext, ServerStateStorageFileHUme);

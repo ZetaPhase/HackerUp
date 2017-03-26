@@ -24,6 +24,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,8 +46,10 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     Handler mHandler;
+    Handler getNearbyHandler;
     private String serverAddress = "192.168.43.198:5000";
     int statusCode;
+    String response;
     boolean pingSuccess = true;
     String MYPREFERENCES = "HACKERUP";
     LocationManager mLocationManager;
@@ -97,6 +105,8 @@ public class MainActivity extends AppCompatActivity {
         setupDrawer();
         mHandler = new Handler();
         startRepeatingTask();
+        getNearbyHandler = new Handler();
+        startRepeatingGetNearby();
     }
 
     private void setupDrawer() {
@@ -171,9 +181,9 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("OBJECT", position.toString());
                         SharedPreferences sharedpreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
                         String apikey = sharedpreferences.getString("ApiKey", "null");
-                        int a = request("http://" + serverAddress + "/k/ping?apikey=" + apikey, position);
+                        String[] a = request("http://" + serverAddress + "/a/k/ping?apikey=" + apikey, position);
 
-                        setStatusCode(a);
+                        setStatusCode(Integer.valueOf(a[0]));
                         Log.d("STATUSCODE", "" + getStatusCode());
                     }
                 });
@@ -193,6 +203,69 @@ public class MainActivity extends AppCompatActivity {
             } finally {
                 //repeat this runnable
                 mHandler.postDelayed(mStatusChecker, 15000);
+            }
+        }
+    };
+
+    Runnable getNearby = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                Log.d("NEARBY", "getting nearby");
+                // TODO: request nearby users here
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        JSONObject random = new JSONObject();
+                        SharedPreferences sharedpreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
+                        String apikey = sharedpreferences.getString("ApiKey", "null");
+
+                        RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+                        String url = "http://" + serverAddress + "/a/k/nearby/" + nearbyRadius+"?apikey="+apikey;
+
+                        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        setResponse(response);
+                                    }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Log.d("ERROR", "Something bad happened.");
+                                    }
+                        });
+
+                        queue.add(stringRequest);
+                        /*
+                        setStatusCode(Integer.valueOf(a[0]));
+                        setResponse(a[1]);
+                        Log.d("STATUSCODE", "" + getStatusCode());
+                        */
+                        if(getResponse()!=null){
+                            Log.d("RESPONSE", getResponse());
+                        }
+
+
+                    }
+                });
+
+                thread.start();
+                thread.join();
+
+                if (getStatusCode() == 200) {
+                    pingSuccess = true;
+                    //need to populate the listview right here.
+                } else {
+                    pingSuccess = false;
+                    Toast.makeText(MainActivity.this, "Stuff is bad.", Toast.LENGTH_SHORT);
+                }
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                //repeat this runnable
+                getNearbyHandler.postDelayed(getNearby, 15000);
             }
         }
     };
@@ -228,14 +301,17 @@ public class MainActivity extends AppCompatActivity {
         mStatusChecker.run();
     }
 
-    void stopRepeatingTask() {
-        mHandler.removeCallbacks(mStatusChecker);
+    void startRepeatingGetNearby() {
+        getNearby.run();
     }
 
     public void setStatusCode(int statusCode){ this.statusCode = statusCode; }
     public int getStatusCode(){ return this.statusCode; }
 
-    private int request(String urlString, JSONObject jsonObj) {
+    public void setResponse(String response) { this.response = response; }
+    public String getResponse() { return this.response; }
+
+    private String[] request(String urlString, JSONObject jsonObj) {
         // TODO Auto-generated method stub
 
         StringBuffer chaine = new StringBuffer("");
@@ -271,8 +347,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Log.d("STATUSCODE", ""+code);
+        String result[] = new String[2];
+        result[0] = ""+code;
+        result[1] = chaine.toString();
 
-        return code;
+        return result;
     }
 
     private void addDrawerItems() {

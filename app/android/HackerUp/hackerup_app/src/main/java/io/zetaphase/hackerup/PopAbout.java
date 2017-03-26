@@ -12,7 +12,7 @@ import android.widget.Button;
 
 public class PopAbout extends Activity {
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_about);

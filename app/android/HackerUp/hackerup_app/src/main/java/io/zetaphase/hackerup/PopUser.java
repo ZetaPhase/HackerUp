@@ -17,9 +17,9 @@ import org.json.JSONObject;
  * Created by Dave Ho on 3/26/2017.
  */
 
-public class PopUser extends Activity{
+public class PopUser extends Activity {
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.popup_user);
@@ -34,7 +34,7 @@ public class PopUser extends Activity{
 
         Intent intent = getIntent();
         int clickposition = Integer.valueOf(intent.getStringExtra("CLICKPOSITION"));
-        String json =intent.getStringExtra("JSON");
+        String json = intent.getStringExtra("JSON");
 
         User user = MainActivity.nearbyUsers.get(clickposition);
 
@@ -64,7 +64,7 @@ public class PopUser extends Activity{
                 @Override
                 public void onClick(View view) {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://hangouts.google.com/"));
-                    Toast.makeText(PopUser.this, "Send Message to "+_email, Toast.LENGTH_LONG);
+                    Toast.makeText(PopUser.this, "Send Message to " + _email, Toast.LENGTH_LONG);
                     startActivity(browserIntent);
                 }
             });
@@ -72,14 +72,13 @@ public class PopUser extends Activity{
             githubIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/"+_userName));
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/" + _userName));
                     startActivity(browserIntent);
                 }
             });
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
 
 
     }

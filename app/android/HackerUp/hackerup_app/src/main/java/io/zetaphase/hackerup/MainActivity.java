@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 //handle item click here
                 Intent intent = new Intent(MainActivity.this, PopUser.class);
-                intent.putExtra("CLICKPOSITION", ""+position);
+                intent.putExtra("CLICKPOSITION", "" + position);
                 User user = nearbyUsers.get(position);
                 final String publicId = user.getUserid();
                 try {
@@ -96,12 +96,12 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject random = new JSONObject();
                             SharedPreferences sharedpreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
                             String apikey = sharedpreferences.getString("ApiKey", "null");
-                            String url = serverAddress + "/a/k/profile/"+publicId+"?apikey="+apikey;
+                            String url = serverAddress + "/a/k/profile/" + publicId + "?apikey=" + apikey;
                             String[] a = request(url, random);
                             setStatusCode(Integer.valueOf(a[0]));
                             setResponse(a[1]);
                             Log.d("STATUSCODE", "" + getStatusCode());
-                            if(getResponse()!=null){
+                            if (getResponse() != null) {
                                 Log.d("RESPONSE", getResponse());
                             }
                         }
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(MainActivity.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
-                if(position==0){
+                if (position == 0) {
                     //adjust radius stuff
                     new MaterialDialog.Builder(MainActivity.this)
                             .title("Adjust Radius")
@@ -135,10 +135,10 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onInput(MaterialDialog dialog, CharSequence input) {
                                     nearbyRadius = Integer.valueOf(input.toString());
-                                    Log.d("NEARBYRADIUSUPDATE", ""+nearbyRadius);
+                                    Log.d("NEARBYRADIUSUPDATE", "" + nearbyRadius);
                                 }
                             }).show();
-                }else if(position==1){
+                } else if (position == 1) {
                     //log out
                     SharedPreferences sharedpreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedpreferences.edit();
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent i = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(i);
                     finish();
-                }else if(position==2){
+                } else if (position == 2) {
                     //about
                     Intent intent = new Intent(MainActivity.this, PopAbout.class);
                     startActivity(intent);
@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mActivityTitle = getTitle().toString();
         setupDrawer();
         mHandler = new Handler();
@@ -173,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
                 getSupportActionBar().setTitle("Navigation!");
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
+
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
                 getSupportActionBar().setTitle(mActivityTitle);
@@ -275,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject random = new JSONObject();
                         SharedPreferences sharedpreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
                         String apikey = sharedpreferences.getString("ApiKey", "null");
-                        String url = serverAddress + "/a/k/nearby/" + nearbyRadius+"?apikey="+apikey;
+                        String url = serverAddress + "/a/k/nearby/" + nearbyRadius + "?apikey=" + apikey;
                         /*
                         RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
                         String url = "http://" + serverAddress + "/a/k/nearby/" + nearbyRadius+"?apikey="+apikey;
@@ -306,7 +307,7 @@ public class MainActivity extends AppCompatActivity {
                         setStatusCode(Integer.valueOf(a[0]));
                         setResponse(a[1]);
                         Log.d("STATUSCODE", "" + getStatusCode());
-                        if(getResponse()!=null){
+                        if (getResponse() != null) {
                             Log.d("RESPONSE", getResponse());
                         }
                     }
@@ -320,20 +321,20 @@ public class MainActivity extends AppCompatActivity {
                 if (getStatusCode() == 200) {
                     pingSuccess = true;
                     //need to populate the listview right here.
-                    JSONObject jsonObj = new JSONObject("{\"users\":"+r+"}");
+                    JSONObject jsonObj = new JSONObject("{\"users\":" + r + "}");
                     JSONArray jsonArray = jsonObj.getJSONArray("users");
                     nearbyUsers.clear();
-                    for(int i=0; i<jsonArray.length(); i++){
+                    for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject user = jsonArray.getJSONObject(i);
                         String userid = user.getString("UserId");
                         String name = user.getString("Name");
                         double distance = Double.valueOf(user.getString("Distance"));
-                        Log.d("ADDINGUSERS", userid+" "+name+" "+distance);
+                        Log.d("ADDINGUSERS", userid + " " + name + " " + distance);
                         nearbyUsers.add(new User(name, userid, distance));
                     }
-                    if(! nearbyUsers.isEmpty()){
+                    if (!nearbyUsers.isEmpty()) {
                         areUsersConnected.setText("");
-                    }else{
+                    } else {
                         areUsersConnected.setText("Look's like you're alone here! Check back later :)");
                     }
                     nearbyUserAdapter.updateNearbyUserList(nearbyUsers);
@@ -389,11 +390,21 @@ public class MainActivity extends AppCompatActivity {
         getNearby.run();
     }
 
-    public void setStatusCode(int statusCode){ this.statusCode = statusCode; }
-    public int getStatusCode(){ return this.statusCode; }
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
+    }
 
-    public void setResponse(String response) { this.response = response; }
-    public String getResponse() { return this.response; }
+    public int getStatusCode() {
+        return this.statusCode;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
+    }
+
+    public String getResponse() {
+        return this.response;
+    }
 
     private String[] request(String urlString, JSONObject jsonObj) {
         // TODO Auto-generated method stub
@@ -430,9 +441,9 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Log.d("STATUSCODE", ""+code);
+        Log.d("STATUSCODE", "" + code);
         String result[] = new String[2];
-        result[0] = ""+code;
+        result[0] = "" + code;
         result[1] = chaine.toString();
 
         return result;

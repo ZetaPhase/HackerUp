@@ -20,7 +20,7 @@ import java.net.URL;
  * Created by Dave Ho on 3/14/2017.
  */
 
-public class SplashScreen extends Activity{
+public class SplashScreen extends Activity {
 
     private static int SPLASH_TIME_OUT = 3000;
 
@@ -75,10 +75,10 @@ public class SplashScreen extends Activity{
             e.printStackTrace();
         }
 
-        Log.d("STATUSCODE", ""+code);
+        Log.d("STATUSCODE", "" + code);
 
         String result[] = new String[2];
-        result[0] = ""+code;
+        result[0] = "" + code;
         result[1] = chaine.toString();
 
         return result;

@@ -14,17 +14,17 @@ import java.util.List;
  * Created by Dave Ho on 3/25/2017.
  */
 
-public class NearbyUserAdapter extends ArrayAdapter<User>{
+public class NearbyUserAdapter extends ArrayAdapter<User> {
     private Context context;
     private List<User> userList;
 
-    public NearbyUserAdapter(Context context, int resource, ArrayList<User> nearbyUsers){
+    public NearbyUserAdapter(Context context, int resource, ArrayList<User> nearbyUsers) {
         super(context, resource, nearbyUsers);
         this.context = context;
         this.userList = nearbyUsers;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(int position, View convertView, ViewGroup parent) {
         User user = userList.get(position);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(MainActivity.LAYOUT_INFLATER_SERVICE);
@@ -34,10 +34,12 @@ public class NearbyUserAdapter extends ArrayAdapter<User>{
         TextView distance = (TextView) view.findViewById(R.id.userRowDistance);
 
         name.setText(user.getName());
-        distance.setText(""+user.getDistance()+" meters");
+        distance.setText("" + user.getDistance() + " meters");
 
         return view;
     }
 
-    public void updateNearbyUserList(ArrayList<User> userList) { this.userList = userList; }
+    public void updateNearbyUserList(ArrayList<User> userList) {
+        this.userList = userList;
+    }
 }

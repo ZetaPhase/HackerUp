@@ -1,8 +1,7 @@
 <template>
   <div class="discover">
-    <md-list class="custom-list md-double-line">
+    <md-list v-if="anybody" class="custom-list md-double-line">
       <md-subheader class="md-inset">Nearby Hackers</md-subheader>
-
       <md-list-item v-for="(ps, ix) in nearby" @click.native="openPerson(ix)">
         <md-icon class="md-primary">person</md-icon>
         <div class="md-list-text-container">
@@ -12,6 +11,9 @@
         <!--<md-divider class="md-inset"></md-divider>-->
       </md-list-item>
     </md-list>
+    <div v-else>
+      <h5>Looks like you're alone on here! Check back later?</h5>
+    </div>
   </div>
 </template>
 
@@ -23,6 +25,11 @@
     data () {
       return {
         nearby: []
+      }
+    },
+    computed: {
+      anybody: function () {
+        return this.nearby.length !== 0
       }
     },
     methods: {

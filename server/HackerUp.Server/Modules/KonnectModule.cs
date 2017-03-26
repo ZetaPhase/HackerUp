@@ -113,6 +113,7 @@ namespace HackerUp.Server.Modules
                         RepoCount = githubUser.PublicRepos,
                         FullName = selectedUser.FullName,
                         HangoutsEmail = selectedUser.HangoutsEmail,
+                        GitHubUsername = selectedUser.GitHubUsername,
                         GitHubBio = githubUser.Bio,
                         Company = githubUser.Company,
                         HomeLocation = githubUser.Location

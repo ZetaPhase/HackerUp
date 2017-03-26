@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle;
     private ListView nearbyUsersListView;
-    ArrayList<User> nearbyUsers;
+    public static ArrayList<User> nearbyUsers;
     private NearbyUserAdapter nearbyUserAdapter;
 
 
@@ -80,6 +80,61 @@ public class MainActivity extends AppCompatActivity {
         mDrawerList = (ListView) findViewById(R.id.navList);
         addDrawerItems();
         Log.d("DRAWERLISTCREATED", "hi");
+        nearbyUsersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                //handle item click here
+                Intent intent = new Intent(MainActivity.this, PopUser.class);
+                intent.putExtra("CLICKPOSITION", ""+position);
+                User user = nearbyUsers.get(position);
+                final String publicId = user.getUserid();
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        SharedPreferences sharedpreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
+                        String apikey = sharedpreferences.getString("ApiKey", "null");
+                        RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+                        String url = "http://" + serverAddress + "/a/k/profile/"+publicId+"?apikey=" + apikey;
+
+                        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        Log.d("INFORESPONSE", response);
+                                        setResponse(response);
+                                    }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d("ERROR", "Something bad happened.");
+                            }
+                        }){
+                            @Override
+                            protected Response<String> parseNetworkResponse(NetworkResponse response){
+                                setStatusCode(response.statusCode);
+                                return super.parseNetworkResponse(response);
+                            }
+                        };
+
+                        queue.add(stringRequest);
+
+                        Log.d("STATUSCODE", "" + getStatusCode());
+                        Log.d("GETTINGINFO", getResponse());
+                    }
+                });
+
+                thread.start();
+                try {
+                    thread.join();
+                    Log.d("THEADJOINED", "threadjoined");
+                    intent.putExtra("JSON", getResponse());
+                    startActivity(intent);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -230,7 +285,8 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject random = new JSONObject();
                         SharedPreferences sharedpreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
                         String apikey = sharedpreferences.getString("ApiKey", "null");
-
+                        String url = "http://" + serverAddress + "/a/k/nearby/" + nearbyRadius+"?apikey="+apikey;
+                        /*
                         RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
                         String url = "http://" + serverAddress + "/a/k/nearby/" + nearbyRadius+"?apikey="+apikey;
 
@@ -254,6 +310,11 @@ public class MainActivity extends AppCompatActivity {
                         };
 
                         queue.add(stringRequest);
+                        */
+
+                        String[] a = request(url, random);
+                        setStatusCode(Integer.valueOf(a[0]));
+                        setResponse(a[1]);
                         Log.d("STATUSCODE", "" + getStatusCode());
                         if(getResponse()!=null){
                             Log.d("RESPONSE", getResponse());

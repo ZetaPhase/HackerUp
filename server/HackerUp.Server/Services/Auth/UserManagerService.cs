@@ -39,6 +39,7 @@ namespace HackerUp.Server.Services.Auth
             // upsert
             UserStore.Upsert(newUser);
             UserStore.EnsureIndex(u => u.ApiKey);
+            UserStore.EnsureIndex(u => u.PublicUserId);
             return Task.FromResult(newUser);
         }
         public RegisteredUser FindUserByApiKey(string apikey)

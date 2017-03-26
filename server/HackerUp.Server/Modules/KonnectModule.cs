@@ -22,7 +22,7 @@ namespace HackerUp.Server.Modules
         public KonnectModule(IHUServerContext serverContext) : base("/a/k")
         {
             ServerContext = serverContext;
-            
+
             this.RequiresClaims(x => x.Value == UserApiLoginValidator.StatelessAuthClaim.Value);
             RegisteredUser user = null;
             string apiKey = null;
@@ -63,10 +63,10 @@ namespace HackerUp.Server.Modules
                 }
             });
 
-            Get("/nearby/{dist}", args => 
+            Get("/nearby/{dist}", args =>
             {
                 try
-                {                
+                {
                     double distanceRange = (double)args.dist;
                     // get current user
                     var connUser = ServerContext.ConnectedUsers.Find(x => x.DbUser.ApiKey == apiKey);
@@ -97,7 +97,7 @@ namespace HackerUp.Server.Modules
                 }
             });
 
-            Get("/profile/{publicId}", async args => 
+            Get("/profile/{publicId}", async args =>
             {
                 try
                 {
@@ -107,7 +107,6 @@ namespace HackerUp.Server.Modules
                     if (selectedUser == null) return HttpStatusCode.NotFound;
                     var ghClient = new GitHubClient(new ProductHeaderValue(nameof(HUAuthenticationModule)));
                     var githubUser = await ghClient.User.Get(selectedUser.GitHubUsername);
-                    
 
                     var profile = new UserProfile
                     {

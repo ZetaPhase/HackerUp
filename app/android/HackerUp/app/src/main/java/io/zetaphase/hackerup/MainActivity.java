@@ -24,6 +24,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle;
+    private ListView nearbyUsersListView;
 
 
     @Override
@@ -234,19 +236,19 @@ public class MainActivity extends AppCompatActivity {
                                     public void onErrorResponse(VolleyError error) {
                                         Log.d("ERROR", "Something bad happened.");
                                     }
-                        });
+                        }){
+                            @Override
+                            protected Response<String> parseNetworkResponse(NetworkResponse response){
+                                setStatusCode(response.statusCode);
+                                return super.parseNetworkResponse(response);
+                            }
+                        };
 
                         queue.add(stringRequest);
-                        /*
-                        setStatusCode(Integer.valueOf(a[0]));
-                        setResponse(a[1]);
                         Log.d("STATUSCODE", "" + getStatusCode());
-                        */
                         if(getResponse()!=null){
                             Log.d("RESPONSE", getResponse());
                         }
-
-
                     }
                 });
 

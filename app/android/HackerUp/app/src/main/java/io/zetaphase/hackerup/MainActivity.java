@@ -1,7 +1,10 @@
 package io.zetaphase.hackerup;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -10,7 +13,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -33,11 +42,56 @@ public class MainActivity extends AppCompatActivity {
     boolean pingSuccess = true;
     String MYPREFERENCES = "HACKERUP";
     LocationManager mLocationManager;
+    private ListView mDrawerList;
+    private ArrayAdapter<String> mAdapter;
+    private double nearbyRadius; // in kilometers
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        nearbyRadius = 1.5;
+        mDrawerList = (ListView) findViewById(R.id.navList);
+        addDrawerItems();
+        Log.d("DRAWERLISTCREATED", "hi");
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(MainActivity.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
+                if(position==0){
+                    //adjust radius stuff
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle("Adjust the Radius");
+                    final EditText input = new EditText(MainActivity.this);
+                    input.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                    builder.setView(input);
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            nearbyRadius = Integer.valueOf(input.getText().toString());
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+
+                    builder.show();
+                }else if(position==1){
+                    //log out
+                    SharedPreferences sharedpreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.clear();
+                    editor.commit();
+                    Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+            }
+        });
         mHandler = new Handler();
         startRepeatingTask();
     }
@@ -167,4 +221,11 @@ public class MainActivity extends AppCompatActivity {
 
         return code;
     }
+
+    private void addDrawerItems() {
+        String[] osArray = {"Adjust Radius", "Log Out"};
+        mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, osArray);
+        mDrawerList.setAdapter(mAdapter);
+    }
+
 }

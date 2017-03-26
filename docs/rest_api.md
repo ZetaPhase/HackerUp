@@ -1,5 +1,7 @@
 # API Documentation
 
+Prepend `/a` before everything.
+
 ## Auth routes
 
 POST `/register` - Register a user

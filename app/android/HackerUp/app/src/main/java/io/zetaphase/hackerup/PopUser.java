@@ -2,10 +2,13 @@ package io.zetaphase.hackerup;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,7 +30,7 @@ public class PopUser extends Activity{
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int) (width*0.8), (int) (height*0.8));
+        getWindow().setLayout((int) (width), (int) (height));
 
         Intent intent = getIntent();
         int clickposition = Integer.valueOf(intent.getStringExtra("CLICKPOSITION"));
@@ -36,7 +39,7 @@ public class PopUser extends Activity{
         User user = MainActivity.nearbyUsers.get(clickposition);
 
         TextView fullName = (TextView) findViewById(R.id.viewUserName);
-        TextView userName = (TextView) findViewById(R.id.viewUserUsername);
+        final TextView userName = (TextView) findViewById(R.id.viewUserUsername);
         TextView email = (TextView) findViewById(R.id.viewUserEmail);
         TextView bio = (TextView) findViewById(R.id.viewUserBio);
         TextView company = (TextView) findViewById(R.id.viewUserCompany);
@@ -45,18 +48,39 @@ public class PopUser extends Activity{
         ImageView hangoutsIcon = (ImageView) findViewById(R.id.viewUserHangouts);
         ImageView githubIcon = (ImageView) findViewById(R.id.viewUserGitHub);
 
+
         try {
-            JSONObject jsonObject = new JSONObject(json);
+            final JSONObject jsonObject = new JSONObject(json);
+            final String _email = jsonObject.getString("HangoutsEmail");
+            final String _userName = jsonObject.getString("GitHubUsername");
             fullName.setText(jsonObject.getString("FullName"));
-            userName.setText(jsonObject.getString("GitHubUsername"));
-            email.setText(jsonObject.getString("HangoutsEmail"));
+            userName.setText(_userName);
+            email.setText(_email);
             bio.setText(jsonObject.getString("GitHubBio"));
             company.setText(jsonObject.getString("Company"));
             location.setText(jsonObject.getString("HomeLocation"));
             repoCount.setText(jsonObject.getString("RepoCount"));
+            hangoutsIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://hangouts.google.com/"));
+                    Toast.makeText(PopUser.this, "Send Message to "+_email, Toast.LENGTH_LONG);
+                    startActivity(browserIntent);
+                }
+            });
+
+            githubIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/"+_userName));
+                    startActivity(browserIntent);
+                }
+            });
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+
 
     }
 }

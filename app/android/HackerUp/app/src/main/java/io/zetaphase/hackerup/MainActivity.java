@@ -24,13 +24,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -76,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         nearbyUserAdapter = new NearbyUserAdapter(this, 0, nearbyUsers);
         Log.d("DEBUGGING", nearbyUsersListView.toString());
         nearbyUsersListView.setAdapter(nearbyUserAdapter);
-        nearbyRadius = 1500;
+        nearbyRadius = 9999999;
         mDrawerList = (ListView) findViewById(R.id.navList);
         addDrawerItems();
         Log.d("DRAWERLISTCREATED", "hi");
@@ -88,47 +81,34 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("CLICKPOSITION", ""+position);
                 User user = nearbyUsers.get(position);
                 final String publicId = user.getUserid();
-                Thread thread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        SharedPreferences sharedpreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
-                        String apikey = sharedpreferences.getString("ApiKey", "null");
-                        RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
-                        String url = "http://" + serverAddress + "/a/k/profile/"+publicId+"?apikey=" + apikey;
-
-                        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                                new Response.Listener<String>() {
-                                    @Override
-                                    public void onResponse(String response) {
-                                        Log.d("INFORESPONSE", response);
-                                        setResponse(response);
-                                    }
-                                }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.d("ERROR", "Something bad happened.");
-                            }
-                        }){
-                            @Override
-                            protected Response<String> parseNetworkResponse(NetworkResponse response){
-                                setStatusCode(response.statusCode);
-                                return super.parseNetworkResponse(response);
-                            }
-                        };
-
-                        queue.add(stringRequest);
-
-                        Log.d("STATUSCODE", "" + getStatusCode());
-                        Log.d("GETTINGINFO", getResponse());
-                    }
-                });
-
-                thread.start();
                 try {
+                    Log.d("NEARBY", "getting nearby");
+                    // TODO: request nearby users here
+                    Thread thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            JSONObject random = new JSONObject();
+                            SharedPreferences sharedpreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
+                            String apikey = sharedpreferences.getString("ApiKey", "null");
+                            String url = "http://" + serverAddress + "/a/k/profile/"+publicId+"?apikey="+apikey;
+                            String[] a = request(url, random);
+                            setStatusCode(Integer.valueOf(a[0]));
+                            setResponse(a[1]);
+                            Log.d("STATUSCODE", "" + getStatusCode());
+                            if(getResponse()!=null){
+                                Log.d("RESPONSE", getResponse());
+                            }
+                        }
+                    });
+
+                    thread.start();
                     thread.join();
-                    Log.d("THEADJOINED", "threadjoined");
-                    intent.putExtra("JSON", getResponse());
+
+                    String r = getResponse();
+
+                    intent.putExtra("JSON", r);
                     startActivity(intent);
+
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -354,7 +334,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             } finally {
                 //repeat this runnable
-                getNearbyHandler.postDelayed(getNearby, 10000);
+                getNearbyHandler.postDelayed(getNearby, 2000);
             }
         }
     };

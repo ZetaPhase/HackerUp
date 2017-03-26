@@ -1,5 +1,17 @@
 <template>
   <div class="discover">
+    <md-list class="custom-list md-double-line">
+      <md-subheader class="md-inset">Nearby Hackers</md-subheader>
+
+      <md-list-item v-for="(ps, ix) in nearby" @click.native="openPerson(ix)">
+        <md-icon class="md-primary">person</md-icon>
+        <div class="md-list-text-container">
+          <span> {{ ps.Name }}</span>
+          <span> {{ Math.round(ps.Distance) }} m </span>
+        </div>
+        <!--<md-divider class="md-inset"></md-divider>-->
+      </md-list-item>
+    </md-list>
   </div>
 </template>
 
@@ -17,7 +29,7 @@
       refreshNearby: function () {
         console.log('refreshing nearby')
         let vm = this
-        let rfU = '/a/k/nearby/150000?apikey=' + vm.$root.u.key
+        let rfU = '/a/k/nearby/999999999999?apikey=' + vm.$root.u.key
         // console.log(rfU)
         axios.post(rfU, {})
           .then(function (response) {

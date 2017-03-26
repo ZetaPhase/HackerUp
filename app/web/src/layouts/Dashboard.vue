@@ -8,6 +8,7 @@
             <intro></intro>
           </div>
           -->
+          <h1 class="t-center">HackerUp</h1>
         </div>
       </div>
       <div class="row">
@@ -94,7 +95,7 @@
   #dashboard {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    color: #2c3e50;
+    /*color: #2c3e50;*/
   }
 
   .intro-area {
@@ -118,8 +119,8 @@
   .cool-panel {
     margin-top: 5%;
     padding: 60px;
-    background-color: #262626;
-    box-shadow: 0 0 20px 20px #262626;
+    /*background-color: #262626;*/
+    /*box-shadow: 0 0 20px 20px #262626;*/
   }
 
   .introexit {

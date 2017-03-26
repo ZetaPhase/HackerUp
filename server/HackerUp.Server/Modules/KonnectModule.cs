@@ -107,10 +107,16 @@ namespace HackerUp.Server.Modules
                     if (selectedUser == null) return HttpStatusCode.NotFound;
                     var ghClient = new GitHubClient(new ProductHeaderValue(nameof(HUAuthenticationModule)));
                     var githubUser = await ghClient.User.Get(selectedUser.GitHubUsername);
+                    
 
                     var profile = new UserProfile
                     {
-
+                        RepoCount = githubUser.PublicRepos,
+                        FullName = selectedUser.FullName,
+                        HangoutsEmail = selectedUser.HangoutsEmail,
+                        GitHubBio = githubUser.Bio,
+                        Company = githubUser.Company,
+                        HomeLocation = githubUser.Location
                     };
                     return Response.AsJsonNet(profile);
                 }
@@ -118,7 +124,6 @@ namespace HackerUp.Server.Modules
                 {
                     return HttpStatusCode.BadRequest;
                 }
-                return HttpStatusCode.NotImplemented;
             });
         }
     }

@@ -48,7 +48,7 @@ namespace HackerUp.Server.Modules
                         ghClient.Credentials = new Credentials(registration.GHAuthToken);
                         var ghUser = await ghClient.User.Current();
                         var um = new UserManagerService(ServerContext);
-                        var registeredUser = await um.RegisterUserAsync(registration, ghUser.Name);
+                        var registeredUser = await um.RegisterUserAsync(registration, ghUser.Login);
                         if (registeredUser != null)
                         {
                             return Response.AsJsonNet(registeredUser);

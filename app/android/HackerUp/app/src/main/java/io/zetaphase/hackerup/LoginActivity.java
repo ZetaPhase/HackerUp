@@ -126,7 +126,7 @@ public class LoginActivity extends Activity {
                     e.printStackTrace();
                 }
                 Log.d("OBJECT", login.toString());
-                String[] a = request("http://"+serverAddress+"/register", login);
+                String[] a = request("http://"+serverAddress+"/a/register", login);
 
                 setStatusCode(Integer.valueOf(a[0]));
                 setResponse(a[1].toString());

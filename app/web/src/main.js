@@ -41,20 +41,24 @@ Vue.material.registerTheme({
   },
   hulight: {
     primary: 'red',
+    background: {
+      color: 'grey',
+      hue: 300
+    },
     accent: 'deep-purple'
   },
   hudark: {
     primary: 'red',
     text: 'white',
-    // background: {
-    //   color: 'grey',
-    //   hue: 900
-    // },
+    background: {
+      color: 'grey',
+      hue: 900
+    },
     accent: 'deep-purple'
   }
 })
 
-Vue.material.setCurrentTheme('hulight')
+Vue.material.setCurrentTheme('hudark')
 
 import App from './App'
 

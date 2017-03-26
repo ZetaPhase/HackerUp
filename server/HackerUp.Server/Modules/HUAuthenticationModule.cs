@@ -14,7 +14,7 @@ namespace HackerUp.Server.Modules
     public class HUAuthenticationModule : NancyModule
     {
         public IHUServerContext ServerContext { get; set; }
-        public HUAuthenticationModule(IHUServerContext serverContext)
+        public HUAuthenticationModule(IHUServerContext serverContext) : base("/a")
         {
             ServerContext = serverContext;
 

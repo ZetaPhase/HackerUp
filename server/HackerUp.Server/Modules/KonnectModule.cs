@@ -18,7 +18,7 @@ namespace HackerUp.Server.Modules
     {
         public IHUServerContext ServerContext { get; set; }
         public UserManagerService UserManager { get; set; }
-        public KonnectModule(IHUServerContext serverContext) : base("/k")
+        public KonnectModule(IHUServerContext serverContext) : base("/a/k")
         {
             ServerContext = serverContext;
             

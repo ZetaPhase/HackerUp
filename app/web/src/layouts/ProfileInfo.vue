@@ -16,6 +16,15 @@
           <!--
             Stuff
           -->
+          <div>
+            <h2>{{ p.name }}</h2>
+            <h5>{{ p.bio }}</h5>
+            <p>Home location: {{ p.homeLoc }}</p>
+            <p>Works at <b>{{ p.company }}</b></p>
+            <p>{{ p.name }} is <a target="_blank" :href="p.githubLink">{{ p.username }} </a> on GitHub.</p>
+            <p>{{ p.name }} has {{ p.repoCount }} public repositories on GitHub.</p>
+            <p>Chat with <b>{{ p.hangoutsEmail }}</b> on Google Hangouts</p>
+          </div>
         </div>
       </div>
     </div>
@@ -25,14 +34,24 @@
   import Intro from '../components/Intro'
   import Toolbar from '../components/Toolbar'
 
-  // import axios from 'axios'
+  import axios from 'axios'
 
   export default {
     name: 'profileInfo',
     data: function () {
       return {
         showIntro: true,
-        loading: true
+        loading: true,
+        p: {
+          name: '',
+          company: '',
+          bio: '',
+          username: '',
+          githubLink: '',
+          homeLoc: '',
+          repoCount: 0,
+          hangoutsEmail: ''
+        }
       }
     },
     components: {
@@ -40,12 +59,28 @@
       Intro
     },
     methods: {
-
+      loadProfileInfo: function (id) {
+        let vm = this
+        axios.post('/a/k/profile/' + id + '?apikey=' + vm.$root.u.key, {})
+          .then(function (response) {
+            let uDt = response.data
+            console.log(uDt)
+            vm.p.name = uDt.FullName
+            vm.p.bio = uDt.GitHubBio
+            vm.p.username = uDt.GitHubUsername
+            vm.p.githubLink = 'https://github.com/' + vm.p.username
+            vm.p.hangoutsEmail = uDt.HangoutsEmail
+            vm.p.homeLoc = uDt.HomeLocation
+            vm.p.company = uDt.Company
+            vm.p.repoCount = uDt.RepoCount
+          })
+      }
     },
     mounted: function () {
       this.$root.plU()
       let pId = this.$route.params.id
-      console.log(pId)
+      // console.log(pId)
+      this.loadProfileInfo(pId)
     }
   }
 

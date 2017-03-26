@@ -97,7 +97,7 @@ namespace HackerUp.Server.Modules
                 }
             });
 
-            Get("/profile/{publicId}", async args =>
+            Post("/profile/{publicId}", async args =>
             {
                 try
                 {

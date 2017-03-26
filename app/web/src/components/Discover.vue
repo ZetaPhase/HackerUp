@@ -40,7 +40,7 @@
             for (var i = 0, len = dataA.length; i < len; i++) {
               vm.nearby.push(dataA[i])
             }
-            console.log(vm.nearby)
+            // console.log(vm.nearby)
             setTimeout(vm.refreshNearby, 2000)
           })
       },

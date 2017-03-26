@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle;
     private ListView nearbyUsersListView;
+    private TextView areUsersConnected;
     public static ArrayList<User> nearbyUsers;
     private NearbyUserAdapter nearbyUserAdapter;
 
@@ -66,10 +68,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         nearbyUsersListView = (ListView) findViewById(R.id.nearby_user_list);
         nearbyUsers = new ArrayList<User>();
+        areUsersConnected = (TextView) findViewById(R.id.areUsersConnected);
+        areUsersConnected.setText("Look's like you're alone here! Check back later :)");
         nearbyUserAdapter = new NearbyUserAdapter(this, 0, nearbyUsers);
         Log.d("DEBUGGING", nearbyUsersListView.toString());
         nearbyUsersListView.setAdapter(nearbyUserAdapter);
-        nearbyRadius = 9999999;
+        nearbyRadius = 99999999999999.0;
         mDrawerList = (ListView) findViewById(R.id.navList);
         addDrawerItems();
         Log.d("DRAWERLISTCREATED", "hi");
@@ -320,6 +324,11 @@ public class MainActivity extends AppCompatActivity {
                         double distance = Double.valueOf(user.getString("Distance"));
                         Log.d("ADDINGUSERS", userid+" "+name+" "+distance);
                         nearbyUsers.add(new User(name, userid, distance));
+                    }
+                    if(! nearbyUsers.isEmpty()){
+                        areUsersConnected.setText("");
+                    }else{
+                        areUsersConnected.setText("Look's like you're alone here! Check back later :)");
                     }
                     nearbyUserAdapter.updateNearbyUserList(nearbyUsers);
                     nearbyUserAdapter.notifyDataSetChanged();

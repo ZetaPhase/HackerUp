@@ -46,20 +46,18 @@ namespace HackerUp.Server.Modules
                     {               
                         var ghClient = new GitHubClient(new ProductHeaderValue(nameof(HUAuthenticationModule)));
                         ghClient.Credentials = new Credentials(registration.GHAuthToken);
-                        var user = await ghClient.User.Current();
+                        var ghUser = await ghClient.User.Current();
+                        var um = new UserManagerService(ServerContext);
+                        var registeredUser = await um.RegisterUserAsync(registration, ghUser.Login);
+                        if (registeredUser != null)
+                        {
+                            return Response.AsJsonNet(registeredUser);
+                        }
                     }
                     catch
                     {
                         return HttpStatusCode.BadRequest;
                     }
-                    
-                    var um = new UserManagerService(ServerContext);
-                    var registeredUser = await um.RegisterUserAsync(registration);
-                    if (registeredUser != null)
-                    {
-                        return Response.AsJsonNet(registeredUser);
-                    }
-
                     return HttpStatusCode.Unauthorized;
                 }
                 catch

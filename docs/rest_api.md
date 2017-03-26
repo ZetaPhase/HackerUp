@@ -76,3 +76,19 @@ data:
 ```json
 
 ```
+
+GET `/profile/{publicId}`
+
+yeah.
+
+response data (it's json, i'm just too lazy rn)
+
+```
+RepoCount = githubUser.PublicRepos,
+FullName = selectedUser.FullName,
+HangoutsEmail = selectedUser.HangoutsEmail,
+GitHubUsername = selectedUser.GitHubUsername,
+GitHubBio = githubUser.Bio,
+Company = githubUser.Company,
+HomeLocation = githubUser.Location
+```

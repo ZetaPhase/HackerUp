@@ -10,6 +10,7 @@ using HackerUp.Server.Services.Auth;
 using Nancy;
 using Nancy.ModelBinding;
 using Nancy.Security;
+using Octokit;
 using OsmiumSubstrate.Utilities;
 
 namespace HackerUp.Server.Modules
@@ -21,7 +22,7 @@ namespace HackerUp.Server.Modules
         public KonnectModule(IHUServerContext serverContext) : base("/a/k")
         {
             ServerContext = serverContext;
-            
+
             this.RequiresClaims(x => x.Value == UserApiLoginValidator.StatelessAuthClaim.Value);
             RegisteredUser user = null;
             string apiKey = null;
@@ -62,10 +63,10 @@ namespace HackerUp.Server.Modules
                 }
             });
 
-            Get("/nearby/{dist}", args => 
+            Get("/nearby/{dist}", args =>
             {
                 try
-                {                
+                {
                     double distanceRange = (double)args.dist;
                     // get current user
                     var connUser = ServerContext.ConnectedUsers.Find(x => x.DbUser.ApiKey == apiKey);
@@ -86,8 +87,38 @@ namespace HackerUp.Server.Modules
                     return Response.AsJsonNet(nearbyUsers.Select(x => new NearbyUser
                     {
                         Distance = connUser.LastLocation.GetDistanceTo(x.LastLocation),
-                        UserId = x.DbUser.PublicUserId
+                        UserId = x.DbUser.PublicUserId,
+                        Name = x.DbUser.FullName
                     }));
+                }
+                catch
+                {
+                    return HttpStatusCode.BadRequest;
+                }
+            });
+
+            Get("/profile/{publicId}", async args =>
+            {
+                try
+                {
+                    var publicId = (string)args.publicId;
+                    if (publicId == null) return HttpStatusCode.BadRequest;
+                    var selectedUser = UserManager.FindUserByPublicId(publicId);
+                    if (selectedUser == null) return HttpStatusCode.NotFound;
+                    var ghClient = new GitHubClient(new ProductHeaderValue(nameof(HUAuthenticationModule)));
+                    var githubUser = await ghClient.User.Get(selectedUser.GitHubUsername);
+
+                    var profile = new UserProfile
+                    {
+                        RepoCount = githubUser.PublicRepos,
+                        FullName = selectedUser.FullName,
+                        HangoutsEmail = selectedUser.HangoutsEmail,
+                        GitHubUsername = selectedUser.GitHubUsername,
+                        GitHubBio = githubUser.Bio,
+                        Company = githubUser.Company,
+                        HomeLocation = githubUser.Location
+                    };
+                    return Response.AsJsonNet(profile);
                 }
                 catch
                 {

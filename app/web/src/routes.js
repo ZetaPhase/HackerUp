@@ -2,6 +2,7 @@
 import Landing from './layouts/Landing'
 import AboutPlace from './layouts/AboutPlace'
 import NotFound from './layouts/NotFound'
+import Dashboard from './layouts/Dashboard'
 
 const main = [
   {
@@ -17,6 +18,11 @@ const main = [
     path: '/about',
     name: 'about',
     component: AboutPlace
+  },
+  {
+    path: '/u',
+    name: 'dashboard',
+    component: Dashboard
   }
 ]
 

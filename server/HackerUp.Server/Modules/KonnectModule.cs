@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using GeoCoordinatePortable;
 using HackerUp.Server.Configuration;
@@ -61,15 +62,27 @@ namespace HackerUp.Server.Modules
                 }
             });
 
-            Get("/nearby/{dist:double}", args => 
+            Get("/nearby/{dist}", args => 
             {
                 try
                 {                
-                    double distanceRange = args.dist;
+                    double distanceRange = (double)args.dist;
                     // get current user
                     var connUser = ServerContext.ConnectedUsers.Find(x => x.DbUser.ApiKey == apiKey);
                     if (connUser == null) return HttpStatusCode.BadRequest;
-                    var nearbyUsers = ServerContext.ConnectedUsers.FindAll(x => x != connUser && x.LastLocation != null && connUser.LastLocation.GetDistanceTo(x.LastLocation) < distanceRange);
+                    // var nearbyUsers = ServerContext.ConnectedUsers.FindAll(x => x != connUser && x.LastLocation != null && connUser.LastLocation.GetDistanceTo(x.LastLocation) < distanceRange);
+                    var nearbyUsers = new List<ConnectedUser>();
+                    foreach (var u in ServerContext.ConnectedUsers)
+                    {
+                        if (u != connUser && u.LastLocation != null)
+                        {
+                            var uDist = connUser.LastLocation.GetDistanceTo(u.LastLocation);
+                            if (uDist < distanceRange)
+                            {
+                                nearbyUsers.Add(u);
+                            }
+                        }
+                    }
                     return Response.AsJsonNet(nearbyUsers.Select(x => new NearbyUser
                     {
                         Distance = connUser.LastLocation.GetDistanceTo(x.LastLocation),

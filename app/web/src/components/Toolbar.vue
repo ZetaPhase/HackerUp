@@ -1,7 +1,7 @@
 <template>
   <div class="toolbar">
     <md-toolbar>
-      <md-button class="md-icon-button" @click="toggleLeftSidenav">
+      <md-button class="md-icon-button" @click.native="toggleLeftSidenav">
         <md-icon>menu</md-icon>
       </md-button>
       <h2 class="md-title" style="flex: 1">{{ appName }}</h2>
@@ -16,7 +16,7 @@
         </md-menu-content>
       </md-menu>
     </md-toolbar>
-    <md-sidenav class="md-left md-fixed main-sidebar" ref="leftSidenav">
+    <md-sidenav class="md-left" ref="leftSidenav">
       <md-toolbar class="md-large">
         <div class="md-toolbar-container">
           <h2 class="md-title">{{ appName }}</h2>

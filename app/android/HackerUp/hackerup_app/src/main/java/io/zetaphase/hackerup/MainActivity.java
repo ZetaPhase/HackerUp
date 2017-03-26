@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         nearbyUsersListView = (ListView) findViewById(R.id.nearby_user_list);
         nearbyUsers = new ArrayList<User>();
         areUsersConnected = (TextView) findViewById(R.id.areUsersConnected);
-        areUsersConnected.setText("Look's like you're alone here! Check back later :)");
+        areUsersConnected.setText("Looks like you're alone here! Check back later :)");
         nearbyUserAdapter = new NearbyUserAdapter(this, 0, nearbyUsers);
         Log.d("DEBUGGING", nearbyUsersListView.toString());
         nearbyUsersListView.setAdapter(nearbyUserAdapter);

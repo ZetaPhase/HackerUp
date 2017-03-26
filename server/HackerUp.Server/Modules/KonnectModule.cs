@@ -10,6 +10,7 @@ using HackerUp.Server.Services.Auth;
 using Nancy;
 using Nancy.ModelBinding;
 using Nancy.Security;
+using Octokit;
 using OsmiumSubstrate.Utilities;
 
 namespace HackerUp.Server.Modules
@@ -94,6 +95,30 @@ namespace HackerUp.Server.Modules
                 {
                     return HttpStatusCode.BadRequest;
                 }
+            });
+
+            Get("/profile/{publicId}", async args => 
+            {
+                try
+                {
+                    var publicId = (string)args.publicId;
+                    if (publicId == null) return HttpStatusCode.BadRequest;
+                    var selectedUser = UserManager.FindUserByPublicId(publicId);
+                    if (selectedUser == null) return HttpStatusCode.NotFound;
+                    var ghClient = new GitHubClient(new ProductHeaderValue(nameof(HUAuthenticationModule)));
+                    var githubUser = await ghClient.User.Get(selectedUser.GitHubUsername);
+
+                    var profile = new UserProfile
+                    {
+
+                    };
+                    return Response.AsJsonNet(profile);
+                }
+                catch
+                {
+                    return HttpStatusCode.BadRequest;
+                }
+                return HttpStatusCode.NotImplemented;
             });
         }
     }

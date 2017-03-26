@@ -19,7 +19,7 @@ namespace HackerUp.Server.Services.Auth
             UserStore = ServerContext.Database.GetCollection<RegisteredUser>(UserStoreDataKey);
         }
 
-        public Task<RegisteredUser> RegisterUserAsync(RegistrationRequest request)
+        public Task<RegisteredUser> RegisterUserAsync(RegistrationRequest request, string githubUsername)
         {
             // Make sure no other users with a matching email exist. If it does, make sure everything else matches.
             var existingU = UserStore.FindOne(x => x.HangoutsEmail == request.HangoutsEmail);
@@ -33,7 +33,8 @@ namespace HackerUp.Server.Services.Auth
             var newUser = new RegisteredUser(request.FullName, request.HangoutsEmail, request.GHAuthToken)
             {
                 ApiKey = StringUtils.SecureRandomString(34),
-                PublicUserId = StringUtils.SecureRandomString(14)
+                PublicUserId = StringUtils.SecureRandomString(14),
+                GitHubUsername = githubUsername
             };
             // upsert
             UserStore.Upsert(newUser);

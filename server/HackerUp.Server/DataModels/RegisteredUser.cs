@@ -18,6 +18,8 @@ namespace HackerUp.Server.DataModels
         public string HangoutsEmail { get; set; }
         public string GHAuthToken { get; set; }
 
+        public string GitHubUsername { get; set; }
+
         public string ApiKey { get; set; }
 
         public string PublicUserId { get; set; }

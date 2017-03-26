@@ -61,19 +61,26 @@ namespace HackerUp.Server.Modules
                 }
             });
 
-            Get("/nearby", args => 
+            Get("/nearby/{dist:double}", args => 
             {
-                // get current user
-                var connUser = ServerContext.ConnectedUsers.Find(x => x.DbUser.ApiKey == apiKey);
-                if (connUser == null) return HttpStatusCode.BadRequest;
-                var nearbyUsers = ServerContext.ConnectedUsers.FindAll(x => x != connUser && x.LastLocation != null && connUser.LastLocation.GetDistanceTo(x.LastLocation) < 1500);
-                return Response.AsJsonNet(nearbyUsers.Select(x => new NearbyUser
+                try
+                {                
+                    double distanceRange = args.dist;
+                    // get current user
+                    var connUser = ServerContext.ConnectedUsers.Find(x => x.DbUser.ApiKey == apiKey);
+                    if (connUser == null) return HttpStatusCode.BadRequest;
+                    var nearbyUsers = ServerContext.ConnectedUsers.FindAll(x => x != connUser && x.LastLocation != null && connUser.LastLocation.GetDistanceTo(x.LastLocation) < distanceRange);
+                    return Response.AsJsonNet(nearbyUsers.Select(x => new NearbyUser
+                    {
+                        Distance = connUser.LastLocation.GetDistanceTo(x.LastLocation),
+                        UserId = x.DbUser.PublicUserId
+                    }));
+                }
+                catch
                 {
-                    Distance = connUser.LastLocation.GetDistanceTo(x.LastLocation),
-                    UserId = x.DbUser.PublicUserId
-                }));
+                    return HttpStatusCode.BadRequest;
+                }
             });
-            
         }
     }
 }

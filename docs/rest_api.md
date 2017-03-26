@@ -60,7 +60,9 @@ code:
 
 ``
 
-GET `/nearby` - get a json array of nearby people
+GET `/nearby/{dist:double}` - get a json array of nearby people
+
+
 
 response format:
 

@@ -30,7 +30,7 @@
               <h5>Dave Ho</h5>
             </div>
           </div>
-          <div v-else class="t-center discover-thing animated fadeInUp cool-panel">
+          <div v-else class="t-center animated fadeInUp cool-panel">
             <discover></discover>
           </div>
         </div>
@@ -84,7 +84,7 @@
     mounted: function () {
       this.$root.plU()
       this.showIntro = false
-      setTimeout(function () { this.loading = false }.bind(this), 4000)
+      setTimeout(function () { this.loading = false }.bind(this), 1500)
       // set ping timeout
       setTimeout(function () { this.sendPing() }.bind(this), 3000)
     }
@@ -109,7 +109,7 @@
 
   .welcome-text,
   .discover-thing {
-    animation-delay: 3s;
+    animation-delay: 1s;
   }
 
   .logo {

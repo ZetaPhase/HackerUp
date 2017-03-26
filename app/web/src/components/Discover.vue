@@ -43,6 +43,11 @@
             console.log(vm.nearby)
             setTimeout(vm.refreshNearby, 2000)
           })
+      },
+      openPerson: function (ix) {
+        let pI = this.nearby[ix]
+        // console.log(pI)
+        this.$router.push('/p/' + pI.UserId)
       }
     },
     mounted: function () {

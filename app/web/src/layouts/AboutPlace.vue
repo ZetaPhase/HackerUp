@@ -10,7 +10,14 @@
         <div class="about-pg-content">
           <h3>About HackerUp</h3>
           <p>
-            It's a good app.
+            HackerUp is an HsHacks III project built by Nihal Talur and Dave Ho.
+          </p>
+          <p>
+            HackerUp lets developers meet each other through the app, allowing them
+            to see others nearby to join their projects and to view their online portfolios.
+            With the app, one can view the GitHub profiles of those around them to get a better idea
+            of their interests for possibly forming a programming team. It provides live updates on nearby
+            developers and their profiles.
           </p>
         </div>
       </div>

@@ -61,13 +61,16 @@
       sendPing: function () {
         // send ping post to server
         let vm = this
-        axios.post('/a/k/ping?apikey' + vm.$root.u.key, {
+        axios.post('/a/k/ping?apikey=' + vm.$root.u.key, {
           latitude: 0,
           longitude: 0
         })
           .then((response) => {
             if (response.status !== 200) {
               // uh oh...
+            } else if (response.status === 200) {
+              // k.
+              setTimeout(function () { this.sendPing() }.bind(this), 3000)
             }
           })
           .catch(function (err) {
@@ -78,10 +81,11 @@
       }
     },
     mounted: function () {
+      this.$root.plU()
       this.showIntro = false
-      setTimeout(function () { this.loading = false }.bind(this), 3000)
+      setTimeout(function () { this.loading = false }.bind(this), 4000)
       // set ping timeout
-      setTimeout(function () { this.loading = false }.bind(this), 3000)
+      setTimeout(function () { this.sendPing() }.bind(this), 3000)
     }
   }
 

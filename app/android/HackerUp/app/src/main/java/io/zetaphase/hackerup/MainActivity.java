@@ -1,9 +1,7 @@
 package io.zetaphase.hackerup;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -22,9 +20,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     LocationManager mLocationManager;
     private ListView mDrawerList;
     private ArrayAdapter<String> mAdapter;
-    private double nearbyRadius; // in kilometers
+    private double nearbyRadius; // in meters
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle;
@@ -58,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        nearbyRadius = 1.5;
+        nearbyRadius = 1500;
         mDrawerList = (ListView) findViewById(R.id.navList);
         addDrawerItems();
         Log.d("DRAWERLISTCREATED", "hi");
@@ -68,25 +67,17 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
                 if(position==0){
                     //adjust radius stuff
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    builder.setTitle("Adjust the Radius");
-                    final EditText input = new EditText(MainActivity.this);
-                    input.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                    builder.setView(input);
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            nearbyRadius = Integer.valueOf(input.getText().toString());
-                        }
-                    });
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-
-                    builder.show();
+                    new MaterialDialog.Builder(MainActivity.this)
+                            .title("Adjust Radius")
+                            .content("Input in Meters")
+                            .inputType(InputType.TYPE_NUMBER_FLAG_DECIMAL)
+                            .input("Distance in Meters", "1500", new MaterialDialog.InputCallback() {
+                                @Override
+                                public void onInput(MaterialDialog dialog, CharSequence input) {
+                                    nearbyRadius = Integer.valueOf(input.toString());
+                                    Log.d("NEARBYRADIUSUPDATE", ""+nearbyRadius);
+                                }
+                            }).show();
                 }else if(position==1){
                     //log out
                     SharedPreferences sharedpreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);

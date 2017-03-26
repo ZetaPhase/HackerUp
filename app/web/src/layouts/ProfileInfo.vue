@@ -64,7 +64,7 @@
         axios.post('/a/k/profile/' + id + '?apikey=' + vm.$root.u.key, {})
           .then(function (response) {
             let uDt = response.data
-            console.log(uDt)
+            // console.log(uDt)
             vm.p.name = uDt.FullName
             vm.p.bio = uDt.GitHubBio
             vm.p.username = uDt.GitHubUsername

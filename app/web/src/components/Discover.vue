@@ -27,7 +27,7 @@
     },
     methods: {
       refreshNearby: function () {
-        console.log('refreshing nearby')
+        // console.log('refreshing nearby')
         let vm = this
         let rfU = '/a/k/nearby/999999999999?apikey=' + vm.$root.u.key
         // console.log(rfU)

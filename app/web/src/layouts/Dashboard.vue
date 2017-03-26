@@ -17,6 +17,9 @@
           -->
           <div class="t-center animated welcome-text fadeOutDown zoomOutDown cool-panel">
             <h1>Welcome to HackerUp</h1>
+            <div class="logo">
+              <img src="../assets/logo.png" width="140" height="140">
+            </div>
             <div>
               <md-spinner md-indeterminate></md-spinner>
             </div>
@@ -74,11 +77,15 @@
     animation-delay: 3s;
   }
 
+  .logo {
+    padding: 40px;
+  }
+
   .cool-panel {
     margin-top: 5%;
     padding: 60px;
-    background-color: #313131;
-    box-shadow: 0 0 20px 20px #313131;
+    background-color: #262626;
+    box-shadow: 0 0 20px 20px #262626;
   }
 
   .introexit {

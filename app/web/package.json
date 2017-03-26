@@ -11,7 +11,11 @@
   },
   "dependencies": {
     "vue": "^2.2.2",
-    "vue-router": "^2.2.0"
+    "vue-router": "^2.2.0",
+    "animate.css": "^3.5.2",
+    "axios": "^0.15.3",
+    "skeleton-css": "^2.0.4",
+    "vue-material": "0.7.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
@@ -54,7 +58,11 @@
     "webpack": "^2.2.1",
     "webpack-dev-middleware": "^1.10.0",
     "webpack-hot-middleware": "^2.16.1",
-    "webpack-merge": "^2.6.1"
+    "webpack-merge": "^2.6.1",
+    "json-loader": "^0.5.4",
+    "node-sass": "^4.0.0",
+    "sass-loader": "^4.1.0",
+    "shelljs": "^0.7.4"
   },
   "engines": {
     "node": ">= 4.0.0",

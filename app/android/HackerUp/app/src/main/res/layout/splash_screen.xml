@@ -30,19 +30,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:text="HsHacks |||"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="55dp"
-        android:id="@+id/textView"
-        android:textSize="20sp"
-        android:fontFamily="sans-serif-smallcaps"
-        android:layout_above="@+id/nihal_talur_label"
-        android:layout_alignRight="@+id/nihal_talur_label"
-        android:layout_alignEnd="@+id/nihal_talur_label"
-        android:textColor="@android:color/white"/>
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -51,5 +38,18 @@
         android:layout_marginTop="64dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="HsHacks III"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="55dp"
+        android:id="@+id/textView"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif-smallcaps"
+        android:textColor="@android:color/white"
+        android:layout_above="@+id/nihal_talur_label"
+        android:layout_alignRight="@+id/nihal_talur_label"
+        android:layout_alignEnd="@+id/nihal_talur_label" />
 
 </RelativeLayout>

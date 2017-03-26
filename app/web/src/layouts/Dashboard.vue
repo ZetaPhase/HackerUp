@@ -70,7 +70,7 @@
               // uh oh...
             } else if (response.status === 200) {
               // k.
-              setTimeout(function () { this.sendPing() }.bind(this), 3000)
+              setTimeout(function () { this.sendPing() }.bind(this), 10000)
             }
           })
           .catch(function (err) {

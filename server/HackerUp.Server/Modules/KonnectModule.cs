@@ -63,7 +63,7 @@ namespace HackerUp.Server.Modules
                 }
             });
 
-            Get("/nearby/{dist}", args =>
+            Post("/nearby/{dist}", args =>
             {
                 try
                 {

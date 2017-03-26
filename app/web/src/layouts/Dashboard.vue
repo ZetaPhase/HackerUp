@@ -86,7 +86,7 @@
       this.showIntro = false
       setTimeout(function () { this.loading = false }.bind(this), 1500)
       // set ping timeout
-      setTimeout(function () { this.sendPing() }.bind(this), 3000)
+      this.sendPing()
     }
   }
 

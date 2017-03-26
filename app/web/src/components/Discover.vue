@@ -43,6 +43,12 @@
             // console.log(vm.nearby)
             setTimeout(vm.refreshNearby, 2000)
           })
+          .catch(function (err) {
+            if (err) {
+              // todo
+              console.log(err)
+            }
+          })
       },
       openPerson: function (ix) {
         let pI = this.nearby[ix]

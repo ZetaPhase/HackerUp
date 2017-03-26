@@ -22,7 +22,7 @@
             <p>Home location: {{ p.homeLoc }}</p>
             <p>Works at <b>{{ p.company }}</b></p>
             <p>{{ p.name }} is <a target="_blank" :href="p.githubLink">{{ p.username }} </a> on GitHub.</p>
-            <p>{{ p.name }} has {{ p.repoCount }} public repositories on GitHub.</p>
+            <p>{{ p.name }} has <b>{{ p.repoCount }}</b> public repositories on GitHub.</p>
             <p>Chat with <b>{{ p.hangoutsEmail }}</b> on Google Hangouts</p>
           </div>
         </div>

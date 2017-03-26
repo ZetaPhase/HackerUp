@@ -68,12 +68,14 @@
               // vm.$root.loggedIn = true
               // push user info
               vm.$root.u.key = response.data.apikey
-              vm.$root.u.name = response.data.user.username
+              vm.$root.u.name = vm.login.username
               vm.$root.u.email = vm.login.email
               vm.$root.u.tkn = vm.login.token
+              vm.$root.u.li = true
               vm.$root.sU()
               // console.log(vm.$root.u.name)
               vm.$router.push('/u')
+              vm.login.err = ''
             } else if (response.status === 401) {
               // unauthorized
               vm.login.err = response.data
@@ -83,13 +85,14 @@
           .catch(function (error) {
             // TODO: handle error
             if (error) {
+              console.log(error)
               vm.login.err = 'invalid login credentials'
             }
             vm.login.e = true
           })
       }
     },
-    created: function () {
+    mounted: function () {
       // prefill
       this.$root.plU()
       if (this.$root.u.name) {

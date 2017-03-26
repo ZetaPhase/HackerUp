@@ -43,8 +43,9 @@ Vue.material.registerTheme({
     primary: 'red',
     background: {
       color: 'grey',
-      hue: 300
+      hue: 900
     },
+    text: 'white',
     accent: 'deep-purple'
   },
   hudark: {

@@ -16,7 +16,8 @@
           name: '',
           key: '',
           email: '',
-          tkn: ''
+          tkn: '',
+          li: false
         }
       }
     },
@@ -29,6 +30,8 @@
         this.u.key = ''
         this.u.email = ''
         this.u.tkn = ''
+        this.u.li = false
+        this.sU()
       },
       plU: function () {
         this.u.name = window.localStorage.getItem('u.name')
@@ -170,6 +173,10 @@
 
   .invisible {
     display: none;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: rgba(255, 255, 255, .87);
   }
 
 </style>

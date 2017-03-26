@@ -23,7 +23,7 @@
   import Login from '../components/Login'
 
   export default {
-    name: 'landing',
+    name: 'dashboard',
     components: {
       Toolbar,
       Intro,
@@ -35,7 +35,7 @@
 
 </script>
 <style>
-  #landing {
+  #dashboard {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;

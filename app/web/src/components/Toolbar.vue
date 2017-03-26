@@ -10,9 +10,10 @@
           <md-icon>more_vert</md-icon>
         </md-button>
         <md-menu-content>
-          <md-menu-item @click="visitDevpost">Devpost</md-menu-item>
+          <md-menu-item @selected="logoutU">Log Out</md-menu-item>
           <md-divider></md-divider>
-          <md-menu-item @click="visitGitHub">GitHub</md-menu-item>
+          <md-menu-item @selected="visitDevpost">Devpost</md-menu-item>
+          <md-menu-item @selected="visitGitHub">GitHub</md-menu-item>
         </md-menu-content>
       </md-menu>
     </md-toolbar>
@@ -34,6 +35,9 @@
             </md-list-item>
             <md-list-item @click="closeSidenav">
               <router-link exact to="/about">About</router-link>
+            </md-list-item>
+            <md-list-item v-if="loggedIn" @click.native="logoutU">
+              <router-link exact to="/">Log Out</router-link>
             </md-list-item>
             <md-list-item>
               <span>More</span>
@@ -62,6 +66,12 @@
         appName: 'HackerUp'
       }
     },
+    computed: {
+      loggedIn: function () {
+        // console.log('a', this.$root.u.li)
+        return this.$root.u.li && this.$root.u.name !== ''
+      }
+    },
     methods: {
       visitGitHub: function () {
         window.open('https://github.com/ZetaPhase/HackerUp')
@@ -83,6 +93,10 @@
       },
       closeSidenav: function () {
         this.$refs.leftSidenav.close()
+      },
+      logoutU: function () {
+        this.$root.nukeU()
+        this.$router.push('/')
       }
     }
   }

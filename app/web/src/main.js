@@ -40,8 +40,8 @@ Vue.material.registerTheme({
     accent: 'indigo'
   },
   apptheme: {
-    primary: 'pink',
-    accent: 'teal'
+    primary: 'red',
+    accent: 'deep-purple'
   }
 })
 Vue.material.setCurrentTheme('apptheme')

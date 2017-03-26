@@ -16,7 +16,7 @@
           <!--
             Stuff
           -->
-          <div>
+          <div v-if="!loading">
             <h2>{{ p.name }}</h2>
             <h5>{{ p.bio }}</h5>
             <p>Home location: {{ p.homeLoc }}</p>
@@ -24,6 +24,10 @@
             <p>{{ p.name }} is <a target="_blank" :href="p.githubLink">{{ p.username }} </a> on GitHub.</p>
             <p>{{ p.name }} has <b>{{ p.repoCount }}</b> public repositories on GitHub.</p>
             <p>Chat with <b>{{ p.hangoutsEmail }}</b> on Google Hangouts</p>
+          </div>
+          <div class="t-center" v-else>
+            <p>Loading Profile</p>
+            <md-spinner md-indeterminate class="md-accent"></md-spinner>
           </div>
         </div>
       </div>
@@ -73,6 +77,7 @@
             vm.p.homeLoc = uDt.HomeLocation
             vm.p.company = uDt.Company
             vm.p.repoCount = uDt.RepoCount
+            vm.loading = false
           })
       }
     },

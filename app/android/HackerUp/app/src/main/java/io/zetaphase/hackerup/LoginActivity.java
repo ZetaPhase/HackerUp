@@ -57,7 +57,7 @@ public class LoginActivity extends Activity {
 
         SharedPreferences sharedpreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
         String apikey = sharedpreferences.getString("ApiKey", "null");
-        if(! apikey.equals("null")){
+        if (!apikey.equals("null")) {
             String name = sharedpreferences.getString("FullName", "null");
             String email = sharedpreferences.getString("HangoutsEmail", "null");
             String token = sharedpreferences.getString("GHAuthToken", "null");
@@ -133,7 +133,7 @@ public class LoginActivity extends Activity {
                 }
                 Log.d("OBJECT", login.toString());
                 serverAddress = ipAddress;
-                String[] a = request(serverAddress+"/a/register", login);
+                String[] a = request(serverAddress + "/a/register", login);
 
                 setStatusCode(Integer.valueOf(a[0]));
                 setResponse(a[1].toString());
@@ -146,7 +146,7 @@ public class LoginActivity extends Activity {
 
         // put away keyboard when login is pressed
         View view = this.getCurrentFocus();
-        if(view != null){
+        if (view != null) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
@@ -158,7 +158,7 @@ public class LoginActivity extends Activity {
                         String r = getResponse();
                         int status = getStatusCode();
                         Log.d("RESPONSE", r);
-                        if(status==200){
+                        if (status == 200) {
                             try {
                                 JSONObject jsonObj = new JSONObject(r);
                                 String fullname = jsonObj.get("FullName").toString();
@@ -178,9 +178,9 @@ public class LoginActivity extends Activity {
                                 e.printStackTrace();
                             }
                             onLoginSuccess();
-                        }else if(status==401){
+                        } else if (status == 401) {
                             onLoginFailed("Invalid Auth Token.");
-                        }else if(status==400){
+                        } else if (status == 400) {
                             onLoginFailed("Invalid Fields.");
                         }
                         //onLoginFailed();
@@ -189,15 +189,21 @@ public class LoginActivity extends Activity {
                 }, 3000);
     }
 
-    private void setResponse(String response){
+    private void setResponse(String response) {
         this.response = response;
     }
-    private String getResponse(){
+
+    private String getResponse() {
         return this.response;
     }
 
-    private void setStatusCode(int statusCode){ this.statusCode = statusCode; }
-    private int getStatusCode() { return this.statusCode; }
+    private void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
+    }
+
+    private int getStatusCode() {
+        return this.statusCode;
+    }
 
     private String[] request(String urlString, JSONObject jsonObj) {
         // TODO Auto-generated method stub
@@ -232,12 +238,13 @@ public class LoginActivity extends Activity {
         } catch (IOException e) {
             // writing exception to log
             e.printStackTrace();
+            onLoginFailed("Network error");
         }
 
-        Log.d("STATUSCODE", ""+code);
+        Log.d("STATUSCODE", "" + code);
 
         String result[] = new String[2];
-        result[0] = ""+code;
+        result[0] = "" + code;
         result[1] = chaine.toString();
 
         return result;

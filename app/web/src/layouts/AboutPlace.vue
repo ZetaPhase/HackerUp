@@ -8,7 +8,10 @@
           </div>
         </div>
         <div class="about-pg-content">
-
+          <h3>About HackerUp</h3>
+          <p>
+            It's a good app.
+          </p>
         </div>
       </div>
     </div>

@@ -13,8 +13,8 @@ export default {
   name: 'intro',
   data () {
     return {
-      title: 'IridiumIon Software',
-      motto: 'Random awesome software!'
+      title: 'HackerUp',
+      motto: 'Meet nearby hackers'
     }
   }
 }
@@ -58,5 +58,6 @@ export default {
 
   h3.main-slogan-text {
     font-size: 3rem;
+    text-transform: lowercase;
   }
 </style>

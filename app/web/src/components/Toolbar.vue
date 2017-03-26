@@ -10,9 +10,9 @@
           <md-icon>more_vert</md-icon>
         </md-button>
         <md-menu-content>
-          <md-menu-item @click="visitIridiumIon">GitHub</md-menu-item>
+          <md-menu-item @click="visitDevpost">Devpost</md-menu-item>
           <md-divider></md-divider>
-          <md-menu-item @click="visitGitHub">0xFireball</md-menu-item>
+          <md-menu-item @click="visitGitHub">GitHub</md-menu-item>
         </md-menu-content>
       </md-menu>
     </md-toolbar>
@@ -33,23 +33,17 @@
               <router-link exact to="/">Home</router-link>
             </md-list-item>
             <md-list-item @click="closeSidenav">
-              <router-link exact to="/projects">Projects</router-link>
-            </md-list-item>
-            <md-list-item @click="visitBlog">
-              Blog
-            </md-list-item>
-            <md-list-item @click="closeSidenav">
               <router-link exact to="/about">About</router-link>
             </md-list-item>
             <md-list-item>
               <span>More</span>
               <md-list-expand>
                 <md-list>
-                  <md-list-item class="md-inset" @click="visitIridiumIon">
+                  <md-list-item class="md-inset" @click="visitGitHub">
                     GitHub
                   </md-list-item>
-                  <md-list-item class="md-inset" @click="visitFireball">
-                    0xFireball
+                  <md-list-item class="md-inset" @click="visitDevpost">
+                    Devpost
                   </md-list-item>
                 </md-list>
               </md-list-expand>
@@ -65,17 +59,20 @@
     name: 'toolbar',
     data: function () {
       return {
-        appName: 'IridiumIon Software'
+        appName: 'HackerUp'
       }
     },
     methods: {
       visitGitHub: function () {
-        window.open('https://github.com/0xFireball/')
+        window.open('https://github.com/ZetaPhase/HackerUp')
       },
       visitIridiumIon: function () {
         window.open('https://github.com/IridiumIon/')
       },
       visitFireball: function () {
+        window.open('https://0xfireball.me/')
+      },
+      visitDevpost: function () {
         window.open('https://0xfireball.me/')
       },
       visitBlog: function () {

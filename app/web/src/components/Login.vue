@@ -14,6 +14,7 @@
           <label>GitHub Access Token</label>
           <md-input type="password" v-model="login.token"></md-input>
         </md-input-container>
+        <a href="https://github.com/settings/tokens/new" target="_blank">Need an access token?</a>
         <p class="error-message">{{ login.err }}</p>
         <input type="submit" class="invisible"></input>
         <md-button class="md-raised md-primary" @click.native="tryLogin" :disabled="!login.e">Log In</md-button>

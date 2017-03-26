@@ -32,6 +32,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -42,6 +43,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -61,12 +63,19 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle;
     private ListView nearbyUsersListView;
+    ArrayList<User> nearbyUsers;
+    private NearbyUserAdapter nearbyUserAdapter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        nearbyUsersListView = (ListView) findViewById(R.id.nearby_user_list);
+        nearbyUsers = new ArrayList<User>();
+        nearbyUserAdapter = new NearbyUserAdapter(this, 0, nearbyUsers);
+        Log.d("DEBUGGING", nearbyUsersListView.toString());
+        nearbyUsersListView.setAdapter(nearbyUserAdapter);
         nearbyRadius = 1500;
         mDrawerList = (ListView) findViewById(R.id.navList);
         addDrawerItems();
@@ -74,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MainActivity.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
                 if(position==0){
                     //adjust radius stuff
                     new MaterialDialog.Builder(MainActivity.this)
@@ -255,9 +264,24 @@ public class MainActivity extends AppCompatActivity {
                 thread.start();
                 thread.join();
 
+                String r = getResponse();
+
                 if (getStatusCode() == 200) {
                     pingSuccess = true;
                     //need to populate the listview right here.
+                    JSONObject jsonObj = new JSONObject("{\"users\":"+r+"}");
+                    JSONArray jsonArray = jsonObj.getJSONArray("users");
+                    nearbyUsers.clear();
+                    for(int i=0; i<jsonArray.length(); i++){
+                        JSONObject user = jsonArray.getJSONObject(i);
+                        String userid = user.getString("UserId");
+                        String name = user.getString("Name");
+                        double distance = Double.valueOf(user.getString("Distance"));
+                        Log.d("ADDINGUSERS", userid+" "+name+" "+distance);
+                        nearbyUsers.add(new User(name, userid, distance));
+                    }
+                    nearbyUserAdapter.updateNearbyUserList(nearbyUsers);
+                    nearbyUserAdapter.notifyDataSetChanged();
                 } else {
                     pingSuccess = false;
                     Toast.makeText(MainActivity.this, "Stuff is bad.", Toast.LENGTH_SHORT);
@@ -265,9 +289,11 @@ public class MainActivity extends AppCompatActivity {
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
             } finally {
                 //repeat this runnable
-                getNearbyHandler.postDelayed(getNearby, 15000);
+                getNearbyHandler.postDelayed(getNearby, 10000);
             }
         }
     };

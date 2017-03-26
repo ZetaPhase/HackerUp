@@ -11,6 +11,7 @@
           <!--
             Stuff
           -->
+          <login></login>
         </div>
       </div>
     </div>
@@ -19,12 +20,14 @@
 <script>
   import Intro from '../components/Intro'
   import Toolbar from '../components/Toolbar'
+  import Login from '../components/Login'
 
   export default {
     name: 'app',
     components: {
       Toolbar,
-      Intro
+      Intro,
+      Login
     },
     methods: {
     }

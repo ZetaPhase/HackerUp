@@ -128,8 +128,17 @@
   body.md-theme-hudark,
   .md-theme-hudark.md-sidenav .md-sidenav-content,
   .md-theme-hudark.md-list,
-  .md-theme-hudark.md-list .md-list-item-expand .md-list-item-container {
+  .md-theme-hudark.md-list .md-list-item-expand .md-list-item-container,
+  .md-theme-hudark.md-input-container .md-icon:after {
     background-color: #212121 !important;
+  }
+
+  .md-input-container label {
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  .invisible {
+    display: none;
   }
 
 </style>

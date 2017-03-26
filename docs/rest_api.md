@@ -58,8 +58,6 @@ code:
 `bad request` - invalid parameters
 `ok` - ok.
 
-``
-
 GET `/nearby/{dist:double}` - get a json array of nearby people
 
 

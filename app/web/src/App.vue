@@ -179,4 +179,8 @@
     color: rgba(255, 255, 255, .87);
   }
 
+  .t-center {
+    text-align: center;
+  }
+
 </style>

@@ -1,0 +1,6 @@
+{
+    "corsOrigins": [
+        "http://localhost:8080",
+        "https://hu.ff3.me"
+    ]
+}

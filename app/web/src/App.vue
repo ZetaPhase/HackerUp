@@ -11,10 +11,37 @@
 
   export default {
     data: function () {
-      return {}
+      return {
+        u: {
+          name: '',
+          key: '',
+          email: '',
+          tkn: ''
+        }
+      }
     },
     components: {
       Toolbar
+    },
+    methods: {
+      nukeU: function () {
+        this.u.name = ''
+        this.u.key = ''
+        this.u.email = ''
+        this.u.tkn = ''
+      },
+      plU: function () {
+        this.u.name = window.localStorage.getItem('u.name')
+        this.u.key = window.localStorage.getItem('u.key')
+        this.u.email = window.localStorage.getItem('u.email')
+        this.u.tkn = window.localStorage.getItem('u.tkn')
+      },
+      sU: function () {
+        window.localStorage.setItem('u.name', this.u.name)
+        window.localStorage.setItem('u.key', this.u.key)
+        window.localStorage.setItem('u.email', this.u.email)
+        window.localStorage.setItem('u.tkn', this.u.tkn)
+      }
     }
   }
 
@@ -135,6 +162,10 @@
 
   .md-input-container label {
     color: rgba(255, 255, 255, 0.4);
+  }
+
+  .md-input-container.md-has-value input, .md-input-container.md-has-value textarea {
+    color: rgba(255, 255, 255, 0.66);
   }
 
   .invisible {

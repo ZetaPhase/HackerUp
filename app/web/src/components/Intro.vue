@@ -26,26 +26,26 @@ export default {
     text-align: center;
     margin-top: 5%;
   }
-  
+
   h1,
   h2 {
     font-weight: normal;
   }
-  
+
   ul {
     list-style-type: none;
     padding: 0;
   }
-  
+
   li {
     display: inline-block;
     margin: 0 10px;
   }
-  
+
   a {
     color: #42b983;
   }
-  
+
   h5.company-brand {
     letter-spacing: 0.12rem;
     font-weight: 300;

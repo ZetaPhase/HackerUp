@@ -32,13 +32,14 @@ public class LoginActivity extends Activity {
     EditText _fullName;
     EditText _emailText;
     EditText _token;
+    EditText _ipAddress;
     Button _loginButton;
     String response;
     int statusCode;
     TextView _getToken;
     final String MYPREFERENCES = "HACKERUP";
 
-    private String serverAddress = "192.168.43.198:5000";
+    private String serverAddress;
     //private String serverAddress = "192.168.1.65";
     //private String serverAddress = "10.10.179.241:8000";
 
@@ -52,6 +53,7 @@ public class LoginActivity extends Activity {
         _getToken = (TextView) findViewById(R.id.link_token);
         _token = (EditText) findViewById(R.id.loginToken);
         _fullName = (EditText) findViewById(R.id.loginName);
+        _ipAddress = (EditText) findViewById(R.id.ipAddress);
 
         SharedPreferences sharedpreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
         String apikey = sharedpreferences.getString("ApiKey", "null");
@@ -59,9 +61,12 @@ public class LoginActivity extends Activity {
             String name = sharedpreferences.getString("FullName", "null");
             String email = sharedpreferences.getString("HangoutsEmail", "null");
             String token = sharedpreferences.getString("GHAuthToken", "null");
+            String ipAddress = sharedpreferences.getString("IPAddress", "null");
             _emailText.setText(email);
             _fullName.setText(name);
             _token.setText(token);
+            _ipAddress.setText(ipAddress);
+            serverAddress = ipAddress;
             try {
                 login();
             } catch (InterruptedException e) {
@@ -110,6 +115,7 @@ public class LoginActivity extends Activity {
         final String email = _emailText.getText().toString();
         final String fullName = _fullName.getText().toString();
         final String token = _token.getText().toString();
+        final String ipAddress = _ipAddress.getText().toString();
         String response = null;
 
         // TODO: Implement your own authentication logic here.
@@ -126,7 +132,8 @@ public class LoginActivity extends Activity {
                     e.printStackTrace();
                 }
                 Log.d("OBJECT", login.toString());
-                String[] a = request("http://"+serverAddress+"/a/register", login);
+                serverAddress = ipAddress;
+                String[] a = request(serverAddress+"/a/register", login);
 
                 setStatusCode(Integer.valueOf(a[0]));
                 setResponse(a[1].toString());
@@ -164,6 +171,7 @@ public class LoginActivity extends Activity {
                                 editor.putString("HangoutsEmail", hangoutsemail);
                                 editor.putString("GHAuthToken", token);
                                 editor.putString("ApiKey", apikey);
+                                editor.putString("IPAddress", ipAddress);
                                 editor.commit();
                                 Log.d("SHAREDPREFERENCES", sharedpreferences.getString("ApiKey", ""));
                             } catch (JSONException e) {

@@ -4,30 +4,26 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:text="Distance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="21dp"
-        android:layout_marginEnd="21dp"
-        android:id="@+id/userRowDistance"
-        android:textSize="20sp"
-        android:fontFamily="sans-serif-smallcaps"
-        android:layout_alignBaseline="@+id/userRowName"
-        android:layout_alignBottom="@+id/userRowName"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <TextView
         android:text="User's Name"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/userRowName"
         android:textSize="20sp"
         android:fontFamily="sans-serif-smallcaps"
-        android:layout_marginTop="9dp"
-        android:layout_marginLeft="9dp"
-        android:layout_marginStart="9dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:gravity="center_vertical"
+        android:layout_height="70dp" />
+
+    <TextView
+        android:text="Distance"
+        android:layout_width="wrap_content"
+        android:id="@+id/userRowDistance"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif-smallcaps"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_height="70dp"
+        android:gravity="center_vertical"/>
 </RelativeLayout>

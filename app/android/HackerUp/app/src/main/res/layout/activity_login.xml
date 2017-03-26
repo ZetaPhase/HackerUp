@@ -37,15 +37,20 @@
             android:textColorHint="@android:color/white"/>
 
         <!-- Password Label -->
-
-        <!-- Password Label -->
-
-        <!-- Password Label -->
         <EditText android:id="@+id/loginToken"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:hint="Authorization Token"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textColorHint="@android:color/white"/>
+
+        <EditText android:id="@+id/ipAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="Server Address"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textColorHint="@android:color/white"/>

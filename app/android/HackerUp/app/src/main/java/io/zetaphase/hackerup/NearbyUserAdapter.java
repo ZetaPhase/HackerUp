@@ -34,7 +34,7 @@ public class NearbyUserAdapter extends ArrayAdapter<User>{
         TextView distance = (TextView) view.findViewById(R.id.userRowDistance);
 
         name.setText(user.getName());
-        distance.setText(""+user.getDistance());
+        distance.setText(""+user.getDistance()+" meters");
 
         return view;
     }

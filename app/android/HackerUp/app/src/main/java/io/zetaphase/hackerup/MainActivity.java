@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SharedPreferences sharedPreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
+        serverAddress = sharedPreferences.getString("IPAddress", "null");
         nearbyUsersListView = (ListView) findViewById(R.id.nearby_user_list);
         nearbyUsers = new ArrayList<User>();
         areUsersConnected = (TextView) findViewById(R.id.areUsersConnected);
@@ -94,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject random = new JSONObject();
                             SharedPreferences sharedpreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
                             String apikey = sharedpreferences.getString("ApiKey", "null");
-                            String url = "http://" + serverAddress + "/a/k/profile/"+publicId+"?apikey="+apikey;
+                            String url = serverAddress + "/a/k/profile/"+publicId+"?apikey="+apikey;
                             String[] a = request(url, random);
                             setStatusCode(Integer.valueOf(a[0]));
                             setResponse(a[1]);
@@ -145,6 +147,10 @@ public class MainActivity extends AppCompatActivity {
                     Intent i = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(i);
                     finish();
+                }else if(position==2){
+                    //about
+                    Intent intent = new Intent(MainActivity.this, PopAbout.class);
+                    startActivity(intent);
                 }
             }
         });
@@ -231,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("OBJECT", position.toString());
                         SharedPreferences sharedpreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
                         String apikey = sharedpreferences.getString("ApiKey", "null");
-                        String[] a = request("http://" + serverAddress + "/a/k/ping?apikey=" + apikey, position);
+                        String[] a = request(serverAddress + "/a/k/ping?apikey=" + apikey, position);
 
                         setStatusCode(Integer.valueOf(a[0]));
                         Log.d("STATUSCODE", "" + getStatusCode());
@@ -269,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject random = new JSONObject();
                         SharedPreferences sharedpreferences = getSharedPreferences(MYPREFERENCES, Context.MODE_PRIVATE);
                         String apikey = sharedpreferences.getString("ApiKey", "null");
-                        String url = "http://" + serverAddress + "/a/k/nearby/" + nearbyRadius+"?apikey="+apikey;
+                        String url = serverAddress + "/a/k/nearby/" + nearbyRadius+"?apikey="+apikey;
                         /*
                         RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
                         String url = "http://" + serverAddress + "/a/k/nearby/" + nearbyRadius+"?apikey="+apikey;
@@ -433,7 +439,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addDrawerItems() {
-        String[] osArray = {"Adjust Radius", "Log Out"};
+        String[] osArray = {"Adjust Radius", "Log Out", "About"};
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
     }

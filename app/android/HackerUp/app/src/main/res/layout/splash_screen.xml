@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary">
@@ -30,14 +31,25 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:text="HACKERUP"
+        android:text="HsHacks |||"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
-        android:id="@+id/splash_screen_label"
+        android:layout_marginBottom="55dp"
+        android:id="@+id/textView"
+        android:textSize="20sp"
         android:fontFamily="sans-serif-smallcaps"
-        android:textSize="48sp"
-        android:textColor="@android:color/white"
+        android:layout_above="@+id/nihal_talur_label"
+        android:layout_alignRight="@+id/nihal_talur_label"
+        android:layout_alignEnd="@+id/nihal_talur_label"
+        android:textColor="@android:color/white"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/hackerup_logo"
+        android:id="@+id/imageView2"
+        android:layout_marginTop="64dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

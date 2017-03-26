@@ -61,11 +61,11 @@ namespace HackerUp.Server.Modules
                 }
             });
 
-            Get("/nearby/{dist:double}", args => 
+            Get("/nearby/{dist}", args => 
             {
                 try
                 {                
-                    double distanceRange = args.dist;
+                    double distanceRange = (double)args.dist;
                     // get current user
                     var connUser = ServerContext.ConnectedUsers.Find(x => x.DbUser.ApiKey == apiKey);
                     if (connUser == null) return HttpStatusCode.BadRequest;

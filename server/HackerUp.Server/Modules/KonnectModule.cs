@@ -86,7 +86,8 @@ namespace HackerUp.Server.Modules
                     return Response.AsJsonNet(nearbyUsers.Select(x => new NearbyUser
                     {
                         Distance = connUser.LastLocation.GetDistanceTo(x.LastLocation),
-                        UserId = x.DbUser.PublicUserId
+                        UserId = x.DbUser.PublicUserId,
+                        Name = x.DbUser.FullName
                     }));
                 }
                 catch

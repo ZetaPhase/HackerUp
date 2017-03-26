@@ -124,4 +124,12 @@
     /*opacity: 1;*/
   }
 
+  /* manual theme override!!! */
+  body.md-theme-hudark,
+  .md-theme-hudark.md-sidenav .md-sidenav-content,
+  .md-theme-hudark.md-list,
+  .md-theme-hudark.md-list .md-list-item-expand .md-list-item-container {
+    background-color: #212121 !important;
+  }
+
 </style>

@@ -3,6 +3,7 @@ import Landing from './layouts/Landing'
 import AboutPlace from './layouts/AboutPlace'
 import NotFound from './layouts/NotFound'
 import Dashboard from './layouts/Dashboard'
+import ProfileInfo from './layouts/ProfileInfo'
 
 const main = [
   {
@@ -23,6 +24,11 @@ const main = [
     path: '/u',
     name: 'dashboard',
     component: Dashboard
+  },
+  {
+    path: '/p/:id',
+    name: 'view_profile',
+    component: ProfileInfo
   }
 ]
 

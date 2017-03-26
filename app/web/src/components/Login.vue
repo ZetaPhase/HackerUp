@@ -67,7 +67,7 @@
               // succeeded
               // vm.$root.loggedIn = true
               // push user info
-              vm.$root.u.key = response.data.apikey
+              vm.$root.u.key = response.data.ApiKey
               vm.$root.u.name = vm.login.username
               vm.$root.u.email = vm.login.email
               vm.$root.u.tkn = vm.login.token

@@ -18,6 +18,8 @@ With the app, one can view the GitHub profiles of those around them to get a bet
 of their interests for possibly forming a programming team. It provides live updates on nearby
 developers and their profiles.
 
+Currently, we have a working implementation of the web app and the android app.
+
 # Credits
 
 - [GeoCoordinate](https://github.com/ghuntley/geocoordinate) for Geolocation support

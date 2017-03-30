@@ -2,6 +2,8 @@
 
 HackerUp - HSHacks III
 
+<img src="img/logo-med.png" alt="Drawing" style="width: 200px;"/>
+
 Built by:
 
 [Nihal Talur](https://github.com/0xFireball)
